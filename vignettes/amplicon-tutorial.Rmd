@@ -101,7 +101,7 @@ Plotting each figure mainly include three step:
 2. Plotting and visualization;
 3. Saving figure.
 
-```{r alpha_boxplot, fig.show='asis', fig.width=4, fig.height=2.5}
+```{r alpha_boxplot, fig.show='asis', fig.width=4, fig.height=2.5, warning=FALSE}
 # Data reading
 metadata = read.table("metadata.txt", header=T, row.names=1, sep="\t", comment.char="")
 head(metadata, n = 3)
