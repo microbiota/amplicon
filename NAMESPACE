@@ -3,6 +3,7 @@
 export(alpha_boxplot)
 export(alpha_rare_curve)
 export(beta_cpcoa)
+export(beta_cpcoa_dis)
 export(beta_pcoa)
 export(beta_pcoa_stat)
 export(format2lefse)
