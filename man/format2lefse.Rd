@@ -5,7 +5,7 @@
 \title{Format otutab and taxonomy into each level for STAMP}
 \usage{
 format2lefse(otutab, taxonomy, metadata, thre = 0.01,
-  groupID = "Genotype")
+  groupID = "Group", output = "LEfSe.txt")
 }
 \arguments{
 \item{otutab}{row or normalized OTU table}
@@ -30,7 +30,7 @@ By default, written 1 file
 }
 \examples{
 # Set six parameters: three input files, and three adjust parameters
-format2lefse(otutab, taxonomy, metadata, thre = 0.01, groupID = "Genotype")
+format2lefse(otutab, taxonomy, metadata, thre = 0.01, groupID = "Group")
 }
 \references{
 Zhang, J., Zhang, N., Liu, YX. et al.

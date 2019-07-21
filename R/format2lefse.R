@@ -21,10 +21,10 @@
 #' @seealso alpha_rare
 #' @examples
 #' # Set six parameters: three input files, and three adjust parameters
-#' format2lefse(otutab, taxonomy, metadata, thre = 0.01, groupID = "Genotype")
+#' format2lefse(otutab, taxonomy, metadata, thre = 0.01, groupID = "Group")
 #' @export
 
-format2lefse <- function(otutab, taxonomy, metadata, thre = 0.01, groupID = "Genotype") {
+format2lefse <- function(otutab, taxonomy, metadata, thre = 0.01, groupID = "Group", output = "LEfSe.txt") {
 
   # 依赖关系检测与安装
   p_list = c("dplyr")
@@ -35,7 +35,7 @@ format2lefse <- function(otutab, taxonomy, metadata, thre = 0.01, groupID = "Gen
 
   # 测试默认参数
   # thre = 0.01
-  # groupID = "Genotype"
+  # groupID = "Group"
 
   # 标准化，并筛选高丰度菌均值最小百万分之一0.0001%
   norm = t(t(otutab)/colSums(otutab,na=T))*100
@@ -129,5 +129,5 @@ format2lefse <- function(otutab, taxonomy, metadata, thre = 0.01, groupID = "Gen
   colnames(all)[2:dim(all)[2]] = as.character(metadata[colnames(all)[2:dim(all)[2]],]$group)
 
   # 保存结果为lefse
-  write.table(all, file=paste("LEfSe.txt", sep = ""), append = FALSE, sep="\t", quote=F, row.names=F, col.names=T)
+  write.table(all, file=paste(output, sep = ""), append = FALSE, sep="\t", quote=F, row.names=F, col.names=T)
 }
