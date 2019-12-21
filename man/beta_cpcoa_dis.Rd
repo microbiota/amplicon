@@ -4,8 +4,13 @@
 \alias{beta_cpcoa_dis}
 \title{Plotting beta diversity scatter plot of Constrained PCoA}
 \usage{
-beta_cpcoa_dis(distance_mat, metadata, groupID = "genotype",
-  ellipse = T, label = F)
+beta_cpcoa_dis(
+  distance_mat,
+  metadata,
+  groupID = "genotype",
+  ellipse = T,
+  label = F
+)
 }
 \arguments{
 \item{metadata}{matrix or dataframe, including sampleID and groupID;}

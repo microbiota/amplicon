@@ -4,8 +4,14 @@
 \alias{beta_cpcoa}
 \title{Plotting beta diversity scatter plot of Constrained PCoA}
 \usage{
-beta_cpcoa(otutab, metadata, dis = "bray", groupID = "genotype",
-  ellipse = T, label = F)
+beta_cpcoa(
+  otutab,
+  metadata,
+  dis = "bray",
+  groupID = "genotype",
+  ellipse = T,
+  label = F
+)
 }
 \arguments{
 \item{otutab}{rarefied OTU table, typical output of usearch -otutab_norm or -otutab_rare,}

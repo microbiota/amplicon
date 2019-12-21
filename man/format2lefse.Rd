@@ -2,27 +2,33 @@
 % Please edit documentation in R/format2lefse.R
 \name{format2lefse}
 \alias{format2lefse}
-\title{Format otutab and taxonomy into each level for STAMP}
+\title{Format otutab, metadata and taxonomy into LEfSe format}
 \usage{
-format2lefse(otutab, taxonomy, metadata, thre = 0.01,
-  groupID = "Group", output = "LEfSe.txt")
+format2lefse(
+  otutab,
+  taxonomy,
+  metadata,
+  thre = 0.01,
+  groupID = "Group",
+  output = "LEfSe.txt"
+)
 }
 \arguments{
-\item{otutab}{row or normalized OTU table}
+\item{otutab}{OTUID in row and normalized OTU table}
 
 \item{taxonomy}{Taxonomy include seven taxonomy level in tsv format}
 
 \item{metadata}{matrix or dataframe, including sampleID and groupID}
 
-\item{thre}{threshold of OTU abundance, especially for lefse create properly cladegram}
+\item{thre}{threshold of OTU abundance, especially for lefse create properly cladogram}
 
-\item{groupID}{column name for groupID.}
+\item{groupID}{column name for group ID.}
 }
 \value{
 nothing, all table 0-8 saving in same directory.
 }
 \description{
-Input otutab, taxonomy and metadata, and manual set abundance threshold, metadata column names.
+Input otutab, taxonomy and metadata, and manual set abundance threshold and metadata column names.
 dplyr merge taxonomy.
 }
 \details{
@@ -33,12 +39,10 @@ By default, written 1 file
 format2lefse(otutab, taxonomy, metadata, thre = 0.01, groupID = "Group")
 }
 \references{
-Zhang, J., Zhang, N., Liu, YX. et al.
-Root microbiota shift in rice correlates with resident time in the field and developmental stage
-Sci. China Life Sci. (2018) 61: 613.  DOI: \url{https://doi.org/10.1007/s11427-018-9284-4}
+Jingying Zhang, Yong-Xin Liu, Na Zhang, Bin Hu, Tao Jin, Haoran Xu, Yuan Qin, Pengxu Yan, Xiaoning Zhang, Xiaoxuan Guo, Jing Hui, Shouyun Cao, Xin Wang, Chao Wang, Hui Wang, Baoyuan Qu, Guangyi Fan, Lixing Yuan, Ruben Garrido-Oter, Chengcai Chu & Yang Bai. NRT1.1B is associated with root microbiota composition and nitrogen use in field-grown rice. Nature Biotechnology 37, 676-684, doi:10.1038/s41587-019-0104-4 (2019).  DOI: \url{https://doi.org/10.1038/s41587-019-0104-4}
 }
 \seealso{
-alpha_rare
+format2stamp
 }
 \author{
 Contact: Yong-Xin Liu \email{metagenome@126.com}

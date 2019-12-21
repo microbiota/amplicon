@@ -4,8 +4,7 @@
 \alias{alpha_boxplot}
 \title{Plotting alpha diversity boxplot for each group with anova statistics}
 \usage{
-alpha_boxplot(alpha_div, metadata, index = "richness",
-  groupID = "genotype")
+alpha_boxplot(alpha_div, metadata, index = "richness", groupID = "genotype")
 }
 \arguments{
 \item{alpha_div}{alpha diversity matrix, typical output of usearch -alpha_div,

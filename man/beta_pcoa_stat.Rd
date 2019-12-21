@@ -4,8 +4,13 @@
 \alias{beta_pcoa_stat}
 \title{Plotting beta diversity scatter plot}
 \usage{
-beta_pcoa_stat(dis_mat, metadata, groupID = "genotype",
-  pairwise = TRUE, pairwise_list = "doc/compare.txt")
+beta_pcoa_stat(
+  dis_mat,
+  metadata,
+  groupID = "genotype",
+  pairwise = TRUE,
+  pairwise_list = "doc/compare.txt"
+)
 }
 \arguments{
 \item{dis_mat}{distance matrix, typical output of usearch -beta_div,}

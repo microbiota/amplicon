@@ -53,15 +53,18 @@
 alpha_boxplot <- function(alpha_div, metadata, index = "richness", groupID = "genotype") {
 
   # 依赖关系检测与安装
-  p_list = c("ggplot2", "agricolae", "dplyr")
+  p_list = c("ggplot2", "dplyr", "multcompView") # "agricolae"
   for(p in p_list){
     if (!requireNamespace(p)){
     install.packages(p)}
-    library(p, character.only = TRUE, quietly = TRUE, warn.conflicts = FALSE)}
+    suppressPackageStartupMessages(library(p, character.only = TRUE, quietly = TRUE, warn.conflicts = FALSE))
+  }
 
   # 测试默认参数
+  # library(amplicon)
   # index = "richness"
   # groupID = "genotype"
+  # metadata = subset(metadata, genotype %in% c("KO","OE"))
 
   # 交叉筛选
   idx = rownames(metadata) %in% rownames(alpha_div)
@@ -82,11 +85,46 @@ alpha_boxplot <- function(alpha_div, metadata, index = "richness", groupID = "ge
   Tukey_HSD = TukeyHSD(model, ordered = TRUE, conf.level = 0.95)
   # 提取比较结果
   Tukey_HSD_table = as.data.frame(Tukey_HSD$group)
-  # LSD检验，添加差异组字母
-  out = LSD.test(model, "group", p.adj="none")
-  stat = out$groups
-  # 分组结果添入Index
-  df$stat=stat[as.character(df$group),]$groups
+
+  # 保存统计结果
+  # 保存一个制表符，解决存在行名时，列名无法对齐的问题
+  write.table(paste(date(), "\nGroup\t", groupID, "\n\t", sep=""), file=paste("alpha_boxplot_TukeyHSD.txt",sep=""),append = T, quote = F, eol = "", row.names = F, col.names = F)
+  # 保存统计结果，有waring正常
+  suppressWarnings(write.table(Tukey_HSD_table, file=paste("alpha_boxplot_TukeyHSD.txt",sep=""), append = T, quote = F, sep="\t", eol = "\n", na = "NA", dec = ".", row.names = T, col.names = T))
+
+  # 函数：将Tukey检验结果P值转换为显著字母分组
+  # 输入文件为图基检验结果和分组
+  generate_label_df = function(TUKEY, variable){
+    # library(multcompView)
+    # 转换P值为字母分组
+    ## 提取图基检验中分组子表的第4列P adjust值
+    Tukey.levels = TUKEY[[variable]][,4]
+    ## multcompLetters函数将两两p值转换为字母，data.frame并生成列名为Letters的数据框
+    Tukey.labels = data.frame(multcompLetters(Tukey.levels)['Letters'])
+
+    # 按分组名字母顺序
+    ## 提取字母分组行名为group组名
+    Tukey.labels$group = rownames(Tukey.labels)
+    # 按组名的字母顺序排列，默认的Levels
+    Tukey.labels=Tukey.labels[order(Tukey.labels$group), ]
+    return(Tukey.labels)
+  }
+
+  # 当只有两组时，用LSD标注字母
+  if (length(unique(df$group)) == 2){
+    # LSD检验，添加差异组字母
+    library(agricolae)
+    out = LSD.test(model, "group", p.adj="none")
+    stat = out$groups
+    # 分组结果添入Index
+    df$stat=stat[as.character(df$group),]$groups
+  # 当大于两组时，用multcompView标注字母
+  }else{
+    # library(multcompView)
+    LABELS = generate_label_df(Tukey_HSD , "group")
+    df$stat=LABELS[as.character(df$group),]$Letters
+  }
+
   # 设置分组位置为各组y最大值+高的5%
   max=max(df[,c(index)])
   min=min(df[,index])
@@ -98,7 +136,7 @@ alpha_boxplot <- function(alpha_div, metadata, index = "richness", groupID = "ge
 
   # 绘图 plotting
   p = ggplot(df, aes(x=group, y=df[[index]], color=group)) +
-    geom_boxplot(alpha=1, outlier.size=0, size=0.7, width=0.5, fill="transparent") +
+    geom_boxplot(alpha=1, outlier.shape = NA, outlier.size=0, size=0.7, width=0.5, fill="transparent") +
     labs(x="Groups", y=paste(index, "index"), color=groupID) + theme_classic() +
     geom_text(data=df, aes(x=group, y=y, color=group, label=stat)) +
     geom_jitter(position=position_jitter(0.17), size=1, alpha=0.7)+
