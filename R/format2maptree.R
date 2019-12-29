@@ -1,16 +1,13 @@
-# 样本或组的物种组成弦图 Circlize of taxonomy for samples and gorups
+# 制作树图格式数据 Format feature table and taxonomy into maptree data
 #
-# This is the function named 'data_to_maptree'
-# which draw circle, and reture a circlize object
+# This is the function named 'format2maptree'
+# which format feature table and taxonomy into maptree data, and reture a data object
 #
-#' @title Plotting circlize of taxonomy for groups or samples
-#' @description Input taxonomy composition, and metadata (SampleID and groupID). Then select top N high abundance taxonomy and group other low abundance. When Select samples can draw sample composition by facet groups. If used group can show mean of each group. Finally, return a ggplot2 object.
-#' @param tax_sum composition matrix, like OTU table and rowname is taxonomy, typical output of usearch -sintax_summary;
-#' @param metadata matrix or dataframe, including sampleID and groupID;
-#' @param topN Top N taxonomy to show, default 8, alternative 4, 6, 10 ...;
-#' @param groupID column name for groupID;
-#' @param style group or sample, default group
-#' @param sorted Legend sorted type, default abundance, alternative alphabet
+#' @title Format feature table and taxonomy into maptree data
+#' @description Input taxonomy composition, and feature table. Then select top N high abundance features.Finally, return a maptree(ggraph) object.
+#' @param otu OTU/ASV table;
+#' @param tax taxonomy annotation, include feature ID and 7 levels;
+#' @param N Top N features to show, default 200;
 #' @details
 #' By default, returns top 8 taxonomy and group mean stackplot
 #' The available style include the following:
@@ -26,18 +23,18 @@
 #' Root microbiota shift in rice correlates with resident time in the field and developmental stage.
 #' Sci China Life Sci 61, DOI: \url{https://doi.org/10.1007/s11427-018-9284-4}
 #'
-#' @seealso data_to_maptree
+#' @seealso tax_maptree
 #' @examples
-#' # example data: feature table, rownames is OTU/taxonomy, colnames is SampleID
-#' data(tax_phylum)
-#' # example data: metadata or design, include SampleID, genotype and site
-#' data(metadata)
-#' # Set 4 parameters: set top 5 taxonomy, group by "genotype"
-#' tax_circlize(tax_sum = tax_phylum, metadata, topN = 5, groupID = "genotype")
+#' # Input feature table, taxonomy and Top N features, and format into mapdata
+#' mapdata = format2maptree(otutab, taxonomy, 200)
+#' # Add mean abundance size and phylum color for maptree
+#' mapadd = tax_maptree(mapdata)
+#' # Saving and plotting maptree
+#' (p = mapadd[[1]])
 #' @export
 
 
-format2maptree = function(otu,tax,N){
+format2maptree = function(otu = otutab, tax = taxonomy, N = 200){
   ##-------------------------------------------依赖包-----------
   suppressWarnings(suppressMessages(library(igraph)))
   suppressWarnings(suppressMessages(library(ggraph)))

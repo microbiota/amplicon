@@ -84,7 +84,7 @@ tax_circlize <- function(tax_sum, metadata, topN = 5, groupID = "genotype") {
 #----默认参数绘图-颜色随机#----
 
     # 设置图片文件名、长宽和字体大小
-    pdf(file="circlize.pdf", width=3, height=3, pointsize=8)
+    pdf(file="circlize.pdf", width=89/25.4, height=89/25.4, pointsize=8)
     # 上方绘图和图例代码
     chordDiagram(df)
     # 绘图结束后写入文件
@@ -99,7 +99,7 @@ tax_circlize <- function(tax_sum, metadata, topN = 5, groupID = "genotype") {
     # 定义分组颜色
     grid.col[colnames(df)] = brewer.pal(dim(df)[2], "Accent")
 
-    pdf(file="circlize_legend.pdf", width=6, height=4, pointsize=8)
+    pdf(file="circlize_legend.pdf", width=183/25.4, height=89/25.4, pointsize=8)
     # 上方绘图和图例代码
     chordDiagram(df, directional = TRUE,diffHeight = 0.03, grid.col = grid.col, transparency = 0.5)
     # 添加行-物种图例

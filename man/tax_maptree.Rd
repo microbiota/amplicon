@@ -2,53 +2,43 @@
 % Please edit documentation in R/tax_maptree.R
 \name{tax_maptree}
 \alias{tax_maptree}
-\title{Plotting circlize of taxonomy for groups or samples}
+\title{Plotting maptree of taxonomy}
 \usage{
 tax_maptree(x)
 }
 \arguments{
-\item{tax_sum}{composition matrix, like OTU table and rowname is taxonomy, typical output of usearch -sintax_summary;}
-
-\item{metadata}{matrix or dataframe, including sampleID and groupID;}
-
-\item{topN}{Top N taxonomy to show, default 8, alternative 4, 6, 10 ...;}
-
-\item{groupID}{column name for groupID;}
-
-\item{style}{group or sample, default group}
-
-\item{sorted}{Legend sorted type, default abundance, alternative alphabet}
+\item{mapdata}{format2maptree result}
 }
 \value{
 ggplot2 object.
 }
 \description{
-Input taxonomy composition, and metadata (SampleID and groupID). Then select top N high abundance taxonomy and group other low abundance. When Select samples can draw sample composition by facet groups. If used group can show mean of each group. Finally, return a ggplot2 object.
+Visualize mapdata. Finally, return a ggplot2 object.
 }
 \details{
-By default, returns top 8 taxonomy and group mean stackplot
+By default, returns  mapadd[\link{1}] is ggplot object
 The available style include the following:
 \itemize{
-\item{group: group mean circlize}
-\item{sample: each sample circlize}
+\item{phylum: color by phylum}
+\item{diff: color by diff}
 }
 }
 \examples{
-# example data: feature table, rownames is OTU/taxonomy, colnames is SampleID
-data(tax_phylum)
-# example data: metadata or design, include SampleID, genotype and site
-data(metadata)
-# Set 4 parameters: set top 5 taxonomy, group by "genotype"
-tax_circlize(tax_sum = tax_phylum, metadata, topN = 5, groupID = "genotype")
+# Input feature table, taxonomy and Top N features, and format into mapdata
+mapdata = format2maptree(otutab, taxonomy, 200)
+# Add mean abundance size and phylum color for maptree
+mapadd = tax_maptree(mapdata)
+# Saving and plotting maptree
+(p = mapadd[[1]])
 }
 \references{
-Zhang, J., Zhang, N., Liu, Y.X., Zhang, X., Hu, B., Qin, Y., Xu, H., Wang, H., Guo, X., Qian, J., et al. (2018).
-Root microbiota shift in rice correlates with resident time in the field and developmental stage.
-Sci China Life Sci 61, DOI: \url{https://doi.org/10.1007/s11427-018-9284-4}
+Jingying Zhang, Yong-Xin Liu, et.al. (2019).
+NRT1.1B is associated with root microbiota composition and nitrogen use in field-grown rice.
+Nature Biotechnology 37, 676-684, DOI: \url{https://doi.org/10.1038/s41587-019-0104-4}
 }
 \seealso{
 data_to_maptree
 }
 \author{
-Contact: Yong-Xin Liu \email{metagenome@126.com}
+Contact: Tao Wen, Yong-Xin Liu \email{metagenome@126.com}
 }

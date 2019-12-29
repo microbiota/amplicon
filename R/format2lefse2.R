@@ -2,7 +2,7 @@
 #
 # This is the first function named 'format2lefse'
 
-#' @title Format otutab, metadata and taxonomy into LEfSe format
+#' @title Format otutab, metadata and taxonomy into LEfSe format with level prefix p_
 #' @description Input otutab, taxonomy and metadata, and manual set abundance threshold and metadata column names.
 #' dplyr merge taxonomy.
 #' @param otutab OTUID in row and normalized OTU table
@@ -22,7 +22,7 @@
 #' format2lefse(otutab, taxonomy, metadata, thre = 0.01, groupID = "Group", output = "LEfSe.txt")
 #' @export
 
-format2lefse <- function(otutab, taxonomy, metadata, thre = 0.01, groupID = "Group", output = "LEfSe.txt") {
+format2lefse2 <- function(otutab, taxonomy, metadata, thre = 0.01, groupID = "Group", output = "LEfSe.txt") {
 
   # 内置数据测试函数
   # otutab=otutab
@@ -54,6 +54,14 @@ format2lefse <- function(otutab, taxonomy, metadata, thre = 0.01, groupID = "Gro
   # colSums(HA)
   # 数据筛选并排序，要求每个OTU必须的注释，可以为空
   tax = tax[rownames(HA),]
+
+  # 级别添加标签
+  tax$Kingdom = paste0("k__",tax$Kingdom)
+  tax$Phylum = paste0("p__",tax$Phylum)
+  tax$Class = paste0("c__",tax$Class)
+  tax$Order = paste0("o__",tax$Order)
+  tax$Family = paste0("f__",tax$Family)
+  tax$Genus = paste0("g__",tax$Genus)
 
   # 转换为等级|连接格式
   tax$Phylum=paste(tax$Kingdom,tax$Phylum,sep = "|")

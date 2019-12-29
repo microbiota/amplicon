@@ -1,34 +1,45 @@
 # 生成STAMP输入物种分类级汇总表 format to stamp
 #
-# This is the first function named 'format2stamp'
+# This is the format transform function named 'format2stamp'
 
 #' @title Format otutab and taxonomy into each level for STAMP
 #' @description Input otutab, taxonomy, and manual set abundance threshold.
 #' dplyr merge taxonomy.
-#' @param otutab row or normalized OTU table
+#' @param otutab raw or normalized OTU table
 #' @param taxonomy Taxonomy include seven taxonomy level in tsv format
-#' @param thre threshold of OTU abundance, default 1 per Million
-#' @param prefix prefix of output files
+#' @param thre threshold of OTU relative abundance, default 1 read per Million
+#' @param prefix prefix for output files
 #' @details
-#' By default, written 9 files
+#' By default, written 8 files
 #' The files list as the following:
 #' \itemize{
-#' \item{1-7: Kingdom to Species 7 levels}
+#' \item{1-7: Kingdom to Species together include 7 levels}
 #' \item{8: filtered OTUs}
 #' }
-#' @return nothing, all table 1-8 saving in same directory.
+#' @return nothing, all table 1-8 saving in output directory.
 #' @author Contact: Yong-Xin Liu \email{metagenome@@126.com}
 #' @references
-#' Zhang, J., Zhang, N., Liu, YX. et al.
-#' Root microbiota shift in rice correlates with resident time in the field and developmental stage
-#' Sci. China Life Sci. (2018) 61: 613.  DOI: \url{https://doi.org/10.1007/s11427-018-9284-4}
-#' @seealso alpha_rare
+#' Jingying Zhang, Yong-Xin Liu, et. al.
+#' NRT1.1B is associated with root microbiota composition and nitrogen use in field-grown rice
+#' Nature Biotechnology. (2019) 37, 676-684.  DOI: \url{https://doi.org/10.1038/s41587-019-0104-4}
+#' @seealso format2lefse
 #' @examples
-#' # Set 4 parameters: 2 input files, and 2 adjust parameters
+#' # Set 4 parameters: 2 input files, and 2 parameters
 #' format2stamp(otutab, taxonomy, thre = 0.01,  prefix = "tax")
 #' @export
 
 format2stamp <- function(otutab, taxonomy, thre = 0.0001, prefix = "tax") {
+
+  # 内置数据测试函数
+  # otutab=otutab
+  # taxonomy=taxonomy
+  # thre=0.0001
+  # prefix="tax"
+
+  # 数据交叉筛选
+  idx = rownames(otutab) %in% rownames(taxonomy)
+  otutab = otutab[idx,]
+  tax = taxonomy[rownames(otutab),]
 
   # 依赖关系检测与安装
   p_list = c("dplyr")
@@ -47,8 +58,8 @@ format2stamp <- function(otutab, taxonomy, thre = 0.0001, prefix = "tax") {
   colSums(HA)
   # 保在筛选后的OTU表
   write.table(paste("OTU\t",  sep=""), file=paste(prefix, "_8OTU", thre, ".txt", sep = ""), append = F, sep="\t", quote=F, row.names=F, col.names=F, eol = "")
-  write.table(HA, file=paste(prefix, "_8OTU", thre, ".txt", sep = ""), append = T, sep="\t", quote=F, row.names=T, col.names=T)
-  # 数据筛选并排序，要求每个OTU必须的注释，可以为空
+  suppressWarnings(write.table(HA, file=paste(prefix, "_8OTU", thre, ".txt", sep = ""), append = T, sep="\t", quote=F, row.names=T, col.names=T))
+  # 数据筛选并排序，要求每个OTU必须有注释，可以为空
   tax = tax[rownames(HA),]
 
   # 转换为等级|连接格式
@@ -65,6 +76,7 @@ format2stamp <- function(otutab, taxonomy, thre = 0.0001, prefix = "tax") {
   merge=cbind(HA, grp)
   HA_Kingdom = merge %>% group_by(Kingdom) %>% summarise_all(sum)
   colnames(HA_Kingdom)[1]="Kingdom"
+  # 添加3有效小更简洁和节约空间 round(matrix, digits = 3)
   write.table(HA_Kingdom, file=paste(prefix, "_1Kingdom.txt", sep = ""), append = FALSE, sep="\t", quote=F, row.names=F, col.names=T)
   colnames(HA_Kingdom)[1]="Class"
 
@@ -115,5 +127,4 @@ format2stamp <- function(otutab, taxonomy, thre = 0.0001, prefix = "tax") {
   colnames(HA_Species)[1]="Species"
   write.table(HA_Species, file=paste(prefix, "_7Species.txt", sep = ""), append = FALSE, sep="\t", quote=F, row.names=F, col.names=T)
   colnames(HA_Species)[1]="Class"
-
 }

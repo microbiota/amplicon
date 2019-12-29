@@ -2,28 +2,22 @@
 % Please edit documentation in R/format2maptree.R
 \name{format2maptree}
 \alias{format2maptree}
-\title{Plotting circlize of taxonomy for groups or samples}
+\title{Format feature table and taxonomy into maptree data}
 \usage{
-format2maptree(otu, tax, N)
+format2maptree(otu = otutab, tax = taxonomy, N = 200)
 }
 \arguments{
-\item{tax_sum}{composition matrix, like OTU table and rowname is taxonomy, typical output of usearch -sintax_summary;}
+\item{otu}{OTU/ASV table;}
 
-\item{metadata}{matrix or dataframe, including sampleID and groupID;}
+\item{tax}{taxonomy annotation, include feature ID and 7 levels;}
 
-\item{topN}{Top N taxonomy to show, default 8, alternative 4, 6, 10 ...;}
-
-\item{groupID}{column name for groupID;}
-
-\item{style}{group or sample, default group}
-
-\item{sorted}{Legend sorted type, default abundance, alternative alphabet}
+\item{N}{Top N features to show, default 200;}
 }
 \value{
 ggplot2 object.
 }
 \description{
-Input taxonomy composition, and metadata (SampleID and groupID). Then select top N high abundance taxonomy and group other low abundance. When Select samples can draw sample composition by facet groups. If used group can show mean of each group. Finally, return a ggplot2 object.
+Input taxonomy composition, and feature table. Then select top N high abundance features.Finally, return a maptree(ggraph) object.
 }
 \details{
 By default, returns top 8 taxonomy and group mean stackplot
@@ -34,12 +28,12 @@ The available style include the following:
 }
 }
 \examples{
-# example data: feature table, rownames is OTU/taxonomy, colnames is SampleID
-data(tax_phylum)
-# example data: metadata or design, include SampleID, genotype and site
-data(metadata)
-# Set 4 parameters: set top 5 taxonomy, group by "genotype"
-tax_circlize(tax_sum = tax_phylum, metadata, topN = 5, groupID = "genotype")
+# Input feature table, taxonomy and Top N features, and format into mapdata
+mapdata = format2maptree(otutab, taxonomy, 200)
+# Add mean abundance size and phylum color for maptree
+mapadd = tax_maptree(mapdata)
+# Saving and plotting maptree
+(p = mapadd[[1]])
 }
 \references{
 Zhang, J., Zhang, N., Liu, Y.X., Zhang, X., Hu, B., Qin, Y., Xu, H., Wang, H., Guo, X., Qian, J., et al. (2018).
@@ -47,7 +41,7 @@ Root microbiota shift in rice correlates with resident time in the field and dev
 Sci China Life Sci 61, DOI: \url{https://doi.org/10.1007/s11427-018-9284-4}
 }
 \seealso{
-data_to_maptree
+tax_maptree
 }
 \author{
 Contact: Yong-Xin Liu \email{metagenome@126.com}

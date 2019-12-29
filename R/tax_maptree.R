@@ -1,42 +1,37 @@
-# 样本或组的物种组成弦图 Circlize of taxonomy for samples and gorups
+# 物种组成树图 Maptree of taxonomy composition
 #
-# This is the function named 'data_to_maptree'
-# which draw circle, and reture a circlize object
+# This is the function named 'tax_maptree'
+# which draw maptree, and reture a ggplot2 object
 #
-#' @title Plotting circlize of taxonomy for groups or samples
-#' @description Input taxonomy composition, and metadata (SampleID and groupID). Then select top N high abundance taxonomy and group other low abundance. When Select samples can draw sample composition by facet groups. If used group can show mean of each group. Finally, return a ggplot2 object.
-#' @param tax_sum composition matrix, like OTU table and rowname is taxonomy, typical output of usearch -sintax_summary;
-#' @param metadata matrix or dataframe, including sampleID and groupID;
-#' @param topN Top N taxonomy to show, default 8, alternative 4, 6, 10 ...;
-#' @param groupID column name for groupID;
-#' @param style group or sample, default group
-#' @param sorted Legend sorted type, default abundance, alternative alphabet
+#' @title Plotting maptree of taxonomy
+#' @description Visualize mapdata. Finally, return a ggplot2 object.
+#' @param mapdata format2maptree result
 #' @details
-#' By default, returns top 8 taxonomy and group mean stackplot
+#' By default, returns  mapadd[[1]] is ggplot object
 #' The available style include the following:
 #' \itemize{
-#' \item{group: group mean circlize}
-#' \item{sample: each sample circlize}
+#' \item{phylum: color by phylum}
+#' \item{diff: color by diff}
 #' }
 #' @return ggplot2 object.
-#' @author Contact: Yong-Xin Liu \email{metagenome@@126.com}
+#' @author Contact: Tao Wen, Yong-Xin Liu \email{metagenome@@126.com}
 #' @references
 #'
-#' Zhang, J., Zhang, N., Liu, Y.X., Zhang, X., Hu, B., Qin, Y., Xu, H., Wang, H., Guo, X., Qian, J., et al. (2018).
-#' Root microbiota shift in rice correlates with resident time in the field and developmental stage.
-#' Sci China Life Sci 61, DOI: \url{https://doi.org/10.1007/s11427-018-9284-4}
+#' Jingying Zhang, Yong-Xin Liu, et.al. (2019).
+#' NRT1.1B is associated with root microbiota composition and nitrogen use in field-grown rice.
+#' Nature Biotechnology 37, 676-684, DOI: \url{https://doi.org/10.1038/s41587-019-0104-4}
 #'
 #' @seealso data_to_maptree
 #' @examples
-#' # example data: feature table, rownames is OTU/taxonomy, colnames is SampleID
-#' data(tax_phylum)
-#' # example data: metadata or design, include SampleID, genotype and site
-#' data(metadata)
-#' # Set 4 parameters: set top 5 taxonomy, group by "genotype"
-#' tax_circlize(tax_sum = tax_phylum, metadata, topN = 5, groupID = "genotype")
+#' # Input feature table, taxonomy and Top N features, and format into mapdata
+#' mapdata = format2maptree(otutab, taxonomy, 200)
+#' # Add mean abundance size and phylum color for maptree
+#' mapadd = tax_maptree(mapdata)
+#' # Saving and plotting maptree
+#' (p = mapadd[[1]])
 #' @export
 
-##----构造高级节点注释文件----
+##----注释和可视化树图Annotate and plot maptree----
 tax_maptree = function(x){
   ps_sub = mapdata[[4]]
   vertices_t = mapdata[[3]]
@@ -104,13 +99,3 @@ tax_maptree = function(x){
   # p
   return(list(p,mygraph,fil_colors))
 }
-
-
-# tax_maptree <- function(otutab, taxonomy, dot = 200) {
-#   # otutab = as.matrix(otutab)
-#   # taxonomy = as.matrix(taxonomy)
-#   # dot = 200
-#   mapdata = data_to_maptree (otutab,taxonomy,dot)
-#   mapadd = maptree_add1_plot(mapdata)
-#   p = mapadd[[1]]
-# }

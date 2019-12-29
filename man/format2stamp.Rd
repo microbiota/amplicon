@@ -7,40 +7,40 @@
 format2stamp(otutab, taxonomy, thre = 1e-04, prefix = "tax")
 }
 \arguments{
-\item{otutab}{row or normalized OTU table}
+\item{otutab}{raw or normalized OTU table}
 
 \item{taxonomy}{Taxonomy include seven taxonomy level in tsv format}
 
-\item{thre}{threshold of OTU abundance, default 1 per Million}
+\item{thre}{threshold of OTU relative abundance, default 1 read per Million}
 
-\item{prefix}{prefix of output files}
+\item{prefix}{prefix for output files}
 }
 \value{
-nothing, all table 1-8 saving in same directory.
+nothing, all table 1-8 saving in output directory.
 }
 \description{
 Input otutab, taxonomy, and manual set abundance threshold.
 dplyr merge taxonomy.
 }
 \details{
-By default, written 9 files
+By default, written 8 files
 The files list as the following:
 \itemize{
-\item{1-7: Kingdom to Species 7 levels}
+\item{1-7: Kingdom to Species together include 7 levels}
 \item{8: filtered OTUs}
 }
 }
 \examples{
-# Set 4 parameters: 2 input files, and 2 adjust parameters
+# Set 4 parameters: 2 input files, and 2 parameters
 format2stamp(otutab, taxonomy, thre = 0.01,  prefix = "tax")
 }
 \references{
-Zhang, J., Zhang, N., Liu, YX. et al.
-Root microbiota shift in rice correlates with resident time in the field and developmental stage
-Sci. China Life Sci. (2018) 61: 613.  DOI: \url{https://doi.org/10.1007/s11427-018-9284-4}
+Jingying Zhang, Yong-Xin Liu, et. al.
+NRT1.1B is associated with root microbiota composition and nitrogen use in field-grown rice
+Nature Biotechnology. (2019) 37, 676-684.  DOI: \url{https://doi.org/10.1038/s41587-019-0104-4}
 }
 \seealso{
-alpha_rare
+format2lefse
 }
 \author{
 Contact: Yong-Xin Liu \email{metagenome@126.com}
