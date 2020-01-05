@@ -109,3 +109,4 @@ tax_circlize <- function(tax_sum, metadata, topN = 5, groupID = "genotype") {
     # 绘图结束后写入文件
     dev.off()
 }
+# 输出结果存在AI中编辑缺失字体问题？AdobePiStd
