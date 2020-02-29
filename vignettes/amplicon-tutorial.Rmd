@@ -77,7 +77,7 @@ data(taxonomy)
 head(taxonomy, n = 3)
 ```
 
-# Diversity
+## Alpha Diversity
 
 Setting the basic parameter
 
@@ -93,7 +93,7 @@ height = 59
 ```
 
 
-## Alpha diversity boxplot
+### Alpha diversity boxplot
 
 Plotting each figure mainly include three step:
 
@@ -107,6 +107,12 @@ metadata = read.table("metadata.txt", header=T, row.names=1, sep="\t", comment.c
 head(metadata, n = 3)
 alpha_div = read.table("alpha_div.txt", header=T, row.names=1, sep="\t", comment.char="")
 head(alpha_div, n = 3)
+
+# Alpha barplot
+(p = alpha_barplot(alpha_div, metadata, index = "richness", groupID = "genotype"))
+```
+
+```{r}
 # capitalize
 library(Hmisc)
 colnames(alpha_div) = capitalize(colnames(alpha_div))
@@ -128,6 +134,7 @@ alpha_boxplot(alpha_div, index = colnames(alpha_div)[12], metadata, groupID = gr
 colnames(metadata)
 alpha_boxplot(alpha_div, index = colnames(alpha_div)[9], metadata, groupID = "Site")
 ```
+
 
 ## Alpha rarefraction curve 
 
