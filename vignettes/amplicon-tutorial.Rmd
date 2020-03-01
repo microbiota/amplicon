@@ -84,7 +84,7 @@ Setting the basic parameter
 ```{r parameter, warning=FALSE}
 # colnames of group ID in metadata
 # 设置实验分组列名
-group = "Genotype"
+group = "Group"
 # Output figure width and height  
 # Letter纸图片尺寸为单栏89 mm，双栏183 mm，页面最宽为247 mm
 # 推荐比例16：10，即半版89 mm x 56 mm; 183 mm x 114 mm
@@ -103,13 +103,13 @@ Plotting each figure mainly include three step:
 
 ```{r alpha_boxplot, fig.show='asis', fig.width=4, fig.height=2.5, warning=FALSE}
 # Data reading
-metadata = read.table("metadata.txt", header=T, row.names=1, sep="\t", comment.char="")
-head(metadata, n = 3)
-alpha_div = read.table("alpha_div.txt", header=T, row.names=1, sep="\t", comment.char="")
-head(alpha_div, n = 3)
+# metadata = read.table("metadata.txt", header=T, row.names=1, sep="\t", comment.char="")
+# head(metadata, n = 3)
+# alpha_div = read.table("alpha_div.txt", header=T, row.names=1, sep="\t", comment.char="")
+# head(alpha_div, n = 3)
 
 # Alpha barplot
-(p = alpha_barplot(alpha_div, metadata, index = "richness", groupID = "genotype"))
+(p = alpha_barplot(alpha_div, metadata, index = "richness", groupID = "Group"))
 ```
 
 ```{r}
@@ -151,7 +151,9 @@ ggsave("alpha_rarefraction_curve.pdf", p, width = width, height = height, units 
 p2 = p
 ```
 
-## Beta diversity —— principal coordinat analysis (PCoA)
+## Beta diversity 
+
+### principal coordinat analysis (PCoA)
 
 ```{r beta_pcoa, fig.show='asis', fig.width=4, fig.height=2.5}
 # Data reading
@@ -166,12 +168,12 @@ ggsave("beta_pcoa_bray.pdf", p, width = width, height = height, units = "mm")
 p3 = p
 ```
 
-## Beta diversity —— Constrained PCoA
+### Constrained PCoA
 
 ```{r beta_cpcoa, fig.show='asis', fig.width=4, fig.height=2.5}
 # Data reading
-otutab = read.table("otutab.txt", header=T, row.names=1, sep="\t", comment.char="")
-otutab[1:3, 1:3]
+# otutab = read.table("otutab.txt", header=T, row.names=1, sep="\t", comment.char="")
+# otutab[1:3, 1:3]
 
 # Plotting alpha rarefraction curve in group mean with standard error
 (p = beta_cpcoa(otutab, metadata, dis="bray", groupID = group))
@@ -180,6 +182,49 @@ otutab[1:3, 1:3]
 ggsave("beta_cpcoa_bray.pdf", p, width = width, height = height, units = "mm")
 p4 = p
 ```
+
+### BetaDiv
+
+```{r BetaDiv, fig.show='asis', fig.width=4, fig.height=2.5}
+# Rscript ${db}/script/otutab_rare.R --input otutab.txt \
+#       --depth 0 --seed 1 \
+#       --normalize otutab_rare.txt \
+#       --output alpha/vegan.txt
+
+# 可用的距离类型
+(dist_methods = unlist(phyloseq::distanceMethodList))
+dist = "bray" # 选择 bray 距离
+# 排序方法: DCA, CCA, RDA, NMDS, MDS, PCoA, PCA, LDA
+method = "LDA"
+
+# 输入OTU表、样本元数据、进化树；指定距离编号，分组列和排序方法，以及P阈值和统计方法
+result = BetaDiv(otu = otutab_rare, map = metadata, tree = tree,
+                 group = "Group", dist = dist, method = method,
+                 Micromet = "adonis", pvalue.cutoff = 0.05)
+
+
+# 提取返回结果
+# 提取图片
+(p1 = result[[1]])
+# 提取作图数据
+data1 = result[[2]]
+# 样品添加标签的图片
+# p2 = result[[3]]
+# 提取两两比对结果
+data2 = result[[4]]
+# 提取整体比较结果，与图中一致
+# data3 = result[[5]]
+
+
+# 保存结果
+prefix = paste(dist, method, sep = "_")
+ggsave(paste(prefix,"plot.pdf",sep = "_"), p1, 
+       width = width*2, height = height*2, units = "mm")
+write.table(data1, paste(prefix,"data.txt",sep = "_"), quote = F, sep = "\t")
+write.table(data2, paste(prefix,"stat.txt",sep = "_"), quote = F, sep = "\t")
+```
+
+
 
 ## Combo plots to published-ready figure
 
