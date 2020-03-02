@@ -48,6 +48,15 @@ Kingdom, Phylum, Class, Order, Family, Genus, Species).
 
 Showing the example data format
 
+**metadata**
+
+A table include sample information. Row name must be sample ID, and as following BarcodeSequence, group ID, date, location / site, et. al. .
+
+```{r metadata}
+data(metadata)
+head(metadata, n = 3)
+```
+
 **OTU table**
 
 A table include reads counts of each OTU in each sample. Row name is OTU ID, and Column name is sample ID.
@@ -58,15 +67,6 @@ dim(otutab)
 otutab[1:3, 1:3]
 ```
 
-
-**metadata**
-
-A table include sample information. Row name must be sample ID, and as following BarcodeSequence, group ID, date, location / site, et. al. .
-
-```{r metadata}
-data(metadata)
-head(metadata, n = 3)
-```
 
 **taxonomy**
 

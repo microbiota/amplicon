@@ -1,0 +1,103 @@
+---
+title: "Alpha diversity boxplot(α-多样性箱线图)"
+author: "Yong-Xin Liu(刘永鑫)"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction简介
+
+Alpha多样性分析是微生物组数据分析的常用角度，从物种丰富度或均匀度等方面，实现从复杂微生物组数据的降维，在整体角度观察和比较微生物组样本。
+
+## Example实例
+
+以我2019年发表于Nature Biotechnology杂志上文中图1e为例：
+
+原文链接：https://doi.org/10.1038/s41587-019-0104-4
+
+中文解读 - [NBT封面：水稻NRT1.1B基因调控根系微生物组参与氮利用](https://mp.weixin.qq.com/s/s7Q1_MeodqJ0hjwDumeiXQ)
+
+
+![image](http://210.75.224.110/Note/R/amplicon/alpha_boxplot1.jpg)
+**Figure 1. Shannon index of the microbiota of roots from indica, japonica and the corresponding bulk soils in two fields.**
+
+**Note**: The horizontal bars within boxes represent medians. The tops and bottoms of boxes represent the 75th and 25th percentiles, respectively. The upper and lower whiskers extend to data no more than 1.5× the interquartile range from the upper edge and lower edge of the box, respectively.
+
+**Maintext**: Measurement of within-sample diversity (α-diversity) revealed a significant difference between indica and japonica varieties (Fig. 1). The root microbiota of indica had higher diversity than those of japonica in both fields (Fig. 1), indicating that indica roots recruited more bacterial species than japonica rice.
+
+**图1.两个田地中籼稻、粳稻根系和相对应土体土壤的微生物群落的香农指数。**
+
+**图例**：方框内的水平条表示中位数。 框的顶部和底部分别代表第75和25个分位数。 上下伸长线分别从框的上边缘和下边缘延伸到不超过1.5倍箱体的范围。
+
+**正文**：样品内多样性（α-多样性）的测量显示籼稻和粳稻品种之间存在显着差异（图1）。 在两个地块中，籼稻的根系菌群均比粳稻具有更高的多样性（图1），这表明籼稻的根系比粳稻招募的细菌种类更多。
+
+
+关于此图结果的更多讲解和更多实例，参见：
+
+- [扩增子图表解读1箱线图：Alpha多样性，老板再也不操心的我文献阅读了](https://mp.weixin.qq.com/s/CkHVLzDVosKzoxFEIUpNWw)
+
+## Practice实战
+
+### Input输入文件
+
+**metadata元数据**
+
+A table include sample information. Row name must be sample ID, and as following BarcodeSequence, group ID, date, location / site, et. al. .
+
+```{r metadata}
+library(amplicon)
+data(metadata)
+head(metadata, n = 3)
+
+data(alpha_div)
+head(alpha_div, n = 3)
+```
+
+### Analysis分析
+
+Setting parameter参数设置
+
+```{r parameter, warning=FALSE}
+# colnames of group ID in metadata
+# 设置实验分组列名
+group = "Group"
+# Output figure width and height  
+# Letter纸图片尺寸为单栏89 mm，双栏183 mm，页面最宽为247 mm
+# 推荐比例16：10，即半版89 mm x 56 mm; 183 mm x 114 mm
+width = 89
+height = 59
+```
+
+
+```{r alpha_boxplot, fig.show='asis', fig.width=4, fig.height=2.5, warning=FALSE}
+# Data reading
+# metadata = read.table("metadata.txt", header=T, row.names=1, sep="\t", comment.char="")
+# head(metadata, n = 3)
+# alpha_div = read.table("alpha_div.txt", header=T, row.names=1, sep="\t", comment.char="")
+# head(alpha_div, n = 3)
+
+# Alpha barplot
+(p = alpha_boxplot(alpha_div, metadata, index = "richness", groupID = "Group"))
+
+# 尝试探索不同的多样性各类
+colnames(alpha_div)
+alpha_boxplot(alpha_div, index = colnames(alpha_div)[12], metadata, groupID = group)
+
+# 尝试不同的分组方式
+colnames(metadata)
+alpha_boxplot(alpha_div, index = colnames(alpha_div)[9], metadata, groupID = "Site")
+```
+
+### Result结果
+
+```{r}
+# Saving figure
+# 保存图片，大家可以修改图片名称和位置，长宽单位为毫米
+ggsave("alpha_boxplot.pdf", p, width = width, height = height, units = "mm")
+p1 = p
+```
+
