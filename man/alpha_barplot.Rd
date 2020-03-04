@@ -39,7 +39,6 @@ alpha_barplot(alpha_div, metadata, "richness", "genotype")
 alpha_barplot(alpha_div, metadata, "chao1", "site")
 # Set four parameters: alpha_div, metadata, index and groupID with full parameters
 alpha_barplot(alpha_div = alpha_div, metadata = metadata, index = "richness", groupID = "genotype")
-#' @export
 }
 \references{
 Jingying Zhang, Yong-Xin Liu, Na Zhang, Bin Hu, Tao Jin, Haoran Xu, Yuan Qin, Pengxu Yan, Xiaoning Zhang, Xiaoxuan Guo, Jing Hui, Shouyun Cao, Xin Wang, Chao Wang, Hui Wang, Baoyuan Qu, Guangyi Fan, Lixing Yuan, Ruben Garrido-Oter, Chengcai Chu & Yang Bai.

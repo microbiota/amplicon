@@ -39,7 +39,7 @@
 #' alpha_barplot(alpha_div, metadata, "chao1", "site")
 #' # Set four parameters: alpha_div, metadata, index and groupID with full parameters
 #' alpha_barplot(alpha_div = alpha_div, metadata = metadata, index = "richness", groupID = "genotype")
-#' #' @export
+#' @export
 
 #代码测试
 # load("../data/alpha_div.rda")

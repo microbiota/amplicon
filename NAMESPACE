@@ -2,6 +2,7 @@
 
 export(BetaDiv)
 export(MicroTest)
+export(alpha_barplot)
 export(alpha_boxplot)
 export(alpha_rare_curve)
 export(beta_cpcoa)
@@ -17,3 +18,4 @@ export(pairMicroTest)
 export(tax_circlize)
 export(tax_maptree)
 export(tax_stackplot)
+export(tax_wordcloud)
