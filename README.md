@@ -23,3 +23,10 @@ Main features:
 ## Figure 1. Pipeline of EasyAmplicon for analysis pair-end amplicon data.
 The EasyAmplicon pipeline mainly include three steps. Dimensionality reduction: process raw sequencing into feature table; Analysis: provide functional prediction, alpha, and beta diversity
 
+
+## Install
+
+Please open RStudio， and run the following code for install.
+
+    library(devtools)
+    install_github("microbiota/amplicon")

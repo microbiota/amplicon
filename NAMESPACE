@@ -2,8 +2,10 @@
 
 export(BetaDiv)
 export(MicroTest)
+export(RDA_CCA)
 export(alpha_barplot)
 export(alpha_boxplot)
+export(alpha_rare_all)
 export(alpha_rare_curve)
 export(beta_cpcoa)
 export(beta_cpcoa_dis)
