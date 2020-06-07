@@ -1,7 +1,7 @@
-# 绘制alpha多样性箱线图并添加统计分组 Alpha boxplot + LSD.test
+# 绘制alpha多样性箱线图并添加统计分组 Alpha boxplot & ANOVA+Tukey/LSD test
 #
 # This is the first function named 'alpha_boxplot'
-# which draw boxplot with alpha and metadata, and reture a ggplot2 object
+# which draw box plot with alpha and metadata, and return a ggplot2 object
 #
 # You can learn more about package authoring with RStudio at:
 #
@@ -14,25 +14,29 @@
 #   Test Package:              'Ctrl + Shift + T'
 #   Generate doc:              'Ctrl + Shift + Alt + R'
 
-#' @title Plotting alpha diversity boxplot for each group with anova statistics
-#' @description Input alpha index and metadata, and manual set alpha index and metadata column names.
-#' agricolae::LSD.test calculate p-value, and dplyr summary each group max for p-value groups position.
+#' @title Plotting alpha diversity boxplot for each group with ANOVA statistics
+#' @description Input alpha index and metadata, and manual set alpha index and metadata column name
+#' ANOVA+TukeyHSD/agricolae::LSD.test calculate p-value, and dplyr summary each group max for p-value groups position.
 #' ggplot2 show boxplot, jitter and stat groups.
-#' @param alpha_div alpha diversity matrix, typical output of usearch -alpha_div,
-#' rowname is sampleID, colname is index of alpha diversity;
-#' @param index index(type) of alpha diversity;
-#' @param metadata matrix or dataframe, including sampleID and groupID;
-#' @param groupID column name for groupID.
+#' @param alpha_div alpha diversity matrix, typical output of usearch(-alpha_div)/QIIME/vegan
+#' rowname is sample ID, colname is index of alpha diversity;
+#' @param index index type of alpha diversity;
+#' @param metadata matrix or data frame, including sample ID and group ID;
+#' @param groupID column name for group ID.
 #' @details
 #' By default, returns richness diversity index
 #' The available diversity indices include the following:
 #' \itemize{
-#' \item{most used indices: chao1, richness, shannon_e}
+#' \item{most used indices: richness, simpson, shannon_2}
 #' \item{other used indices: berger_parker, buzas_gibson, dominance, equitability, jost, jost1, reads, robbins, simpson, shannon_2, shannon_10}
 #' }
 #' @return ggplot2 object.
 #' @author Contact: Yong-Xin Liu \email{yxliu@@genetics.ac.cn}
 #' @references
+#'
+#' Yong-Xin Liu, Yuan Qin, Tong Chen, Meiping Lu, Xubo Qian, Xiaoxuan Guo & Yang Bai.
+#' A practical guide to amplicon and metagenomic analysis of microbiome data.
+#' Protein Cell, 2020(41), 1-16, DOI: \url{https://doi.org/10.1007/s13238-020-00724-8}
 #'
 #' Jingying Zhang, Yong-Xin Liu, Na Zhang, Bin Hu, Tao Jin, Haoran Xu, Yuan Qin, Pengxu Yan, Xiaoning Zhang, Xiaoxuan Guo, Jing Hui, Shouyun Cao, Xin Wang, Chao Wang, Hui Wang, Baoyuan Qu, Guangyi Fan, Lixing Yuan, Ruben Garrido-Oter, Chengcai Chu & Yang Bai.
 #' NRT1.1B is associated with root microbiota composition and nitrogen use in field-grown rice.
@@ -40,17 +44,15 @@
 #'
 #' @seealso alpha_barplot
 #' @examples
-#' # Set four parameters: alpha_div, metadata, index and groupID
-#' alpha_boxplot(alpha_div, metadata, "richness", "genotype")
-#' # Set two parameters: alpha_div, metadata, and index and groupID as default richness and genotype
-#' alpha_boxplot(alpha_div, metadata)
-#' # Set two parameters: alpha_div, metadata, and index and groupID as using chao1 and site
-#' alpha_boxplot(alpha_div, metadata, "chao1", "site")
+#' # Input alpha index (alpha_div) and metadata, select richness (index type) and Group (catagory)
+#' alpha_boxplot(alpha_div, metadata, "richness", "Group")
+#' # Select shannon_2 (index type) and Site (catagory)
+#' alpha_boxplot(alpha_div, metadata, "shannon_2", "Site")
 #' @export
 
 
 
-alpha_boxplot <- function(alpha_div, metadata, index = "richness", groupID = "genotype") {
+alpha_boxplot <- function(alpha_div, metadata, index = "richness", groupID = "Group") {
 
   # 依赖关系检测与安装
   p_list = c("ggplot2", "dplyr", "multcompView") # "agricolae"
@@ -63,8 +65,8 @@ alpha_boxplot <- function(alpha_div, metadata, index = "richness", groupID = "ge
   # 测试默认参数
   # library(amplicon)
   # index = "richness"
-  # groupID = "genotype"
-  # metadata = subset(metadata, genotype %in% c("KO","OE"))
+  # groupID = "Group"
+  # metadata = subset(metadata, Group %in% c("KO","OE"))
 
   # 交叉筛选
   idx = rownames(metadata) %in% rownames(alpha_div)
@@ -89,7 +91,7 @@ alpha_boxplot <- function(alpha_div, metadata, index = "richness", groupID = "ge
   # 保存统计结果
   # 保存一个制表符，解决存在行名时，列名无法对齐的问题
   write.table(paste(date(), "\nGroup\t", groupID, "\n\t", sep=""), file=paste("alpha_boxplot_TukeyHSD.txt",sep=""),append = T, quote = F, eol = "", row.names = F, col.names = F)
-  # 保存统计结果，有waring正常
+  # 保存统计结果，有warning正常
   suppressWarnings(write.table(Tukey_HSD_table, file=paste("alpha_boxplot_TukeyHSD.txt",sep=""), append = T, quote = F, sep="\t", eol = "\n", na = "NA", dec = ".", row.names = T, col.names = T))
 
   # 函数：将Tukey检验结果P值转换为显著字母分组
@@ -101,7 +103,6 @@ alpha_boxplot <- function(alpha_div, metadata, index = "richness", groupID = "ge
     Tukey.levels = TUKEY[[variable]][,4]
     ## multcompLetters函数将两两p值转换为字母，data.frame并生成列名为Letters的数据框
     Tukey.labels = data.frame(multcompLetters(Tukey.levels)['Letters'])
-
     # 按分组名字母顺序
     ## 提取字母分组行名为group组名
     Tukey.labels$group = rownames(Tukey.labels)
@@ -118,7 +119,7 @@ alpha_boxplot <- function(alpha_div, metadata, index = "richness", groupID = "ge
     stat = out$groups
     # 分组结果添入Index
     df$stat=stat[as.character(df$group),]$groups
-  # 当大于两组时，用multcompView标注字母
+    # 当大于两组时，用multcompView标注字母
   }else{
     # library(multcompView)
     LABELS = generate_label_df(Tukey_HSD , "group")

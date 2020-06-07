@@ -2,45 +2,47 @@
 % Please edit documentation in R/alpha_boxplot.R
 \name{alpha_boxplot}
 \alias{alpha_boxplot}
-\title{Plotting alpha diversity boxplot for each group with anova statistics}
+\title{Plotting alpha diversity boxplot for each group with ANOVA statistics}
 \usage{
-alpha_boxplot(alpha_div, metadata, index = "richness", groupID = "genotype")
+alpha_boxplot(alpha_div, metadata, index = "richness", groupID = "Group")
 }
 \arguments{
-\item{alpha_div}{alpha diversity matrix, typical output of usearch -alpha_div,
-rowname is sampleID, colname is index of alpha diversity;}
+\item{alpha_div}{alpha diversity matrix, typical output of usearch(-alpha_div)/QIIME/vegan
+rowname is sample ID, colname is index of alpha diversity;}
 
-\item{metadata}{matrix or dataframe, including sampleID and groupID;}
+\item{metadata}{matrix or data frame, including sample ID and group ID;}
 
-\item{index}{index(type) of alpha diversity;}
+\item{index}{index type of alpha diversity;}
 
-\item{groupID}{column name for groupID.}
+\item{groupID}{column name for group ID.}
 }
 \value{
 ggplot2 object.
 }
 \description{
-Input alpha index and metadata, and manual set alpha index and metadata column names.
-agricolae::LSD.test calculate p-value, and dplyr summary each group max for p-value groups position.
+Input alpha index and metadata, and manual set alpha index and metadata column name
+ANOVA+TukeyHSD/agricolae::LSD.test calculate p-value, and dplyr summary each group max for p-value groups position.
 ggplot2 show boxplot, jitter and stat groups.
 }
 \details{
 By default, returns richness diversity index
 The available diversity indices include the following:
 \itemize{
-\item{most used indices: chao1, richness, shannon_e}
+\item{most used indices: richness, simpson, shannon_2}
 \item{other used indices: berger_parker, buzas_gibson, dominance, equitability, jost, jost1, reads, robbins, simpson, shannon_2, shannon_10}
 }
 }
 \examples{
-# Set four parameters: alpha_div, metadata, index and groupID
-alpha_boxplot(alpha_div, metadata, "richness", "genotype")
-# Set two parameters: alpha_div, metadata, and index and groupID as default richness and genotype
-alpha_boxplot(alpha_div, metadata)
-# Set two parameters: alpha_div, metadata, and index and groupID as using chao1 and site
-alpha_boxplot(alpha_div, metadata, "chao1", "site")
+# Input alpha index (alpha_div) and metadata, select richness (index type) and Group (catagory)
+alpha_boxplot(alpha_div, metadata, "richness", "Group")
+# Select shannon_2 (index type) and Site (catagory)
+alpha_boxplot(alpha_div, metadata, "shannon_2", "Site")
 }
 \references{
+Yong-Xin Liu, Yuan Qin, Tong Chen, Meiping Lu, Xubo Qian, Xiaoxuan Guo & Yang Bai.
+A practical guide to amplicon and metagenomic analysis of microbiome data.
+Protein Cell, 2020(41), 1-16, DOI: \url{https://doi.org/10.1007/s13238-020-00724-8}
+
 Jingying Zhang, Yong-Xin Liu, Na Zhang, Bin Hu, Tao Jin, Haoran Xu, Yuan Qin, Pengxu Yan, Xiaoning Zhang, Xiaoxuan Guo, Jing Hui, Shouyun Cao, Xin Wang, Chao Wang, Hui Wang, Baoyuan Qu, Guangyi Fan, Lixing Yuan, Ruben Garrido-Oter, Chengcai Chu & Yang Bai.
 NRT1.1B is associated with root microbiota composition and nitrogen use in field-grown rice.
 Nature Biotechnology, 2019(37), 6:676-684, DOI: \url{https://doi.org/10.1038/s41587-019-0104-4}
