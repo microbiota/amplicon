@@ -1,11 +1,11 @@
 # 绘制beta多样性PCoA图+置信椭圆 Beta PCoA + stat ellipse
 #
 # This is the function named 'beta_pcoa'
-# which draw PCoA scatter plot with stat ellipse, and reture a ggplot2 object
+# which draw PCoA scatter plot with stat ellipse, and return a ggplot2 object
 #
 #' @title Plotting beta diversity scatter plot
-#' @description Input alpha index and metadata, and manual set alpha index and metadata column names.
-#' ggplot2 show PCoA with color and stat ellipse.
+#' @description Input alpha index and metadata, and manual set  metadata column names.
+#' Visualize PCoA with color and stat ellipse by ggplot2.
 #' @param dis_mat distance matrix, typical output of usearch -beta_div,
 #' @param metadata matrix or dataframe, including sampleID and groupID;
 #' @param groupID column name for groupID.
@@ -17,30 +17,29 @@
 #' The available diversity indices include the following:
 #' \itemize{
 #' \item{most used indices: bray_curtis, unifrac}
-#' \item{other used indices: unifrac_binary, euclidean, manhatten}
+#' \item{other used indices: unifrac_binary, jaccard, euclidean, manhatten}
 #' }
 #' @return ggplot2 object.
 #' @author Contact: Yong-Xin Liu \email{metagenome@@126.com}
 #' @references
 #'
-#' Zhang, J., Zhang, N., Liu, Y.X., Zhang, X., Hu, B., Qin, Y., Xu, H., Wang, H., Guo, X., Qian, J., et al. (2018).
-#' Root microbiota shift in rice correlates with resident time in the field and developmental stage.
-#' Sci China Life Sci 61, DOI: \url{https://doi.org/10.1007/s11427-018-9284-4}
+#' Yong-Xin Liu, Yuan Qin, Tong Chen, Meiping Lu, Xubo Qian, Xiaoxuan Guo & Yang Bai.
+#' A practical guide to amplicon and metagenomic analysis of microbiome data.
+#' Protein Cell, 2020(41), 1-16, DOI: \url{https://doi.org/10.1007/s13238-020-00724-8}
+#'
+#' Jingying Zhang, Yong-Xin Liu, Na Zhang, Bin Hu, Tao Jin, Haoran Xu, Yuan Qin, Pengxu Yan, Xiaoning Zhang, Xiaoxuan Guo, Jing Hui, Shouyun Cao, Xin Wang, Chao Wang, Hui Wang, Baoyuan Qu, Guangyi Fan, Lixing Yuan, Ruben Garrido-Oter, Chengcai Chu & Yang Bai.
+#' NRT1.1B is associated with root microbiota composition and nitrogen use in field-grown rice.
+#' Nature Biotechnology, 2019(37), 6:676-684, DOI: \url{https://doi.org/10.1038/s41587-019-0104-4}
 #'
 #' @seealso beta_cpcoa
 #' @examples
-#' # Set 3 parameters: dis_mat, metadata and groupID
-#' beta_pcoa(dis_mat = beta_bray_curtis, metadata, "genotype")
-#' # Set 2 parameters: dis_mat, metadata, and groupID as default "genotype"
-#' beta_pcoa(dis_mat = beta_bray_curtis, metadata)
-#' # Set 6 parameters: dis_mat, metadata, and groupID as using "site",
-#' beta_pcoa(dis_mat = beta_unifrac, metadata, groupID = "site", ellipse = F, label = T, PCo = 13)
+#' # Set essential 3 parameters: distance matrix, metadata and groupID
+#' beta_pcoa(beta_bray_curtis, metadata, "Group")
+#' # Set full 6 parameters: distance matrix, metadata, and groupID as using "site",
+#' beta_pcoa(dis_mat = beta_unifrac, metadata = metadata, groupID = "Site", ellipse = F, label = T, PCo = 13)
 #' @export
 
-
-
-beta_pcoa <- function(dis_mat, metadata, groupID = "genotype", ellipse = T, label = F, PCo = 12) {
-
+beta_pcoa <- function(dis_mat, metadata, groupID = "Group", ellipse = T, label = F, PCo = 12) {
   # 依赖关系检测与安装
   p_list = c("ggplot2", "vegan", "ggrepel")
   for(p in p_list){
@@ -49,7 +48,9 @@ beta_pcoa <- function(dis_mat, metadata, groupID = "genotype", ellipse = T, labe
     library(p, character.only = TRUE, quietly = TRUE, warn.conflicts = FALSE)}
 
   # 测试默认参数
-  # groupID = "genotype"
+  # dis_mat = beta_unifrac
+  # metadata = metadata
+  # groupID = "Group"
   # ellipse = T
   # label = F
   # PCo = 12

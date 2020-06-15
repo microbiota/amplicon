@@ -36,7 +36,7 @@ The available diversity indices include the following:
 # Input alpha index (alpha_div) and metadata, select richness (index type) and Group (catagory)
 alpha_boxplot(alpha_div, metadata, "richness", "Group")
 # Select shannon_2 (index type) and Site (catagory)
-alpha_boxplot(alpha_div, metadata, "shannon_2", "Site")
+alpha_boxplot(alpha_div = alpha_div, metadata = metadata, index = "shannon_2", groupID = "Site")
 }
 \references{
 Yong-Xin Liu, Yuan Qin, Tong Chen, Meiping Lu, Xubo Qian, Xiaoxuan Guo & Yang Bai.

@@ -2,17 +2,6 @@
 #
 # This is the first function named 'alpha_boxplot'
 # which draw box plot with alpha and metadata, and return a ggplot2 object
-#
-# You can learn more about package authoring with RStudio at:
-#
-#   https://github.com/microbiota/amplicon
-#
-# Some useful keyboard shortcuts for package authoring:
-#
-#   Build and Reload Package:  'Ctrl + Shift + B'
-#   Check Package:             'Ctrl + Shift + E'
-#   Test Package:              'Ctrl + Shift + T'
-#   Generate doc:              'Ctrl + Shift + Alt + R'
 
 #' @title Plotting alpha diversity boxplot for each group with ANOVA statistics
 #' @description Input alpha index and metadata, and manual set alpha index and metadata column name
@@ -47,13 +36,10 @@
 #' # Input alpha index (alpha_div) and metadata, select richness (index type) and Group (catagory)
 #' alpha_boxplot(alpha_div, metadata, "richness", "Group")
 #' # Select shannon_2 (index type) and Site (catagory)
-#' alpha_boxplot(alpha_div, metadata, "shannon_2", "Site")
+#' alpha_boxplot(alpha_div = alpha_div, metadata = metadata, index = "shannon_2", groupID = "Site")
 #' @export
 
-
-
 alpha_boxplot <- function(alpha_div, metadata, index = "richness", groupID = "Group") {
-
   # 依赖关系检测与安装
   p_list = c("ggplot2", "dplyr", "multcompView") # "agricolae"
   for(p in p_list){
