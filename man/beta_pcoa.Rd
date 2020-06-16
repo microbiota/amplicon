@@ -45,7 +45,7 @@ The available diversity indices include the following:
 # Set essential 3 parameters: distance matrix, metadata and groupID
 beta_pcoa(beta_bray_curtis, metadata, "Group")
 # Set full 6 parameters: distance matrix, metadata, and groupID as using "site",
-beta_pcoa(dis_mat = beta_unifrac, metadata = metadata, groupID = "Site", ellipse = F, label = T, PCo = 13)
+beta_pcoa(dis_mat=beta_unifrac, metadata=metadata, groupID="Site", ellipse=F, label=T, PCo=13)
 }
 \references{
 Yong-Xin Liu, Yuan Qin, Tong Chen, Meiping Lu, Xubo Qian, Xiaoxuan Guo & Yang Bai.

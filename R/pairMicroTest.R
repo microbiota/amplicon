@@ -30,6 +30,10 @@
 #' @author Contact: Tao Wen \email{2018203048@@njau.edu.cn}, Yong-Xin Liu \email{yxliu@@genetics.ac.cn}
 #' @references
 #'
+#' Yong-Xin Liu, Yuan Qin, Tong Chen, Meiping Lu, Xubo Qian, Xiaoxuan Guo & Yang Bai.
+#' A practical guide to amplicon and metagenomic analysis of microbiome data.
+#' Protein Cell, 2020(41), 1-16, DOI: \url{https://doi.org/10.1007/s13238-020-00724-8}
+#'
 #' Jingying Zhang, Yong-Xin Liu, Na Zhang, Bin Hu, Tao Jin, Haoran Xu, Yuan Qin, Pengxu Yan, Xiaoning Zhang, Xiaoxuan Guo, Jing Hui, Shouyun Cao, Xin Wang, Chao Wang, Hui Wang, Baoyuan Qu, Guangyi Fan, Lixing Yuan, Ruben Garrido-Oter, Chengcai Chu & Yang Bai.
 #' NRT1.1B is associated with root microbiota composition and nitrogen use in field-grown rice.
 #' Nature Biotechnology, 2019(37), 6:676-684, DOI: \url{https://doi.org/10.1038/s41587-019-0104-4}
@@ -38,106 +42,94 @@
 #' @examples
 #' # Input phyloseq format input, and options group, method and distance
 #' # 生成phyloseq对象
-#' ps = phyloseq(otu_table(otutab_rare, taxa_are_rows=TRUE), sample_data(metadata))
-#' pairMicroTest (ps = ps, Micromet = "anosim", dist = "bray")
+#' ps=phyloseq(otu_table(otutab_rare, taxa_are_rows=TRUE), sample_data(metadata))
+#' pairMicroTest (ps=ps, Micromet="anosim", dist="bray")
 #' @export
 
-pairMicroTest = function(ps = ps, Micromet = "anosim", dist = "bray"){
+pairMicroTest=function(ps=ps, Micromet="anosim", dist="bray"){
+
+  if (!requireNamespace("vegan", quietly=TRUE))
+    install.packages("vegan")
+  library(vegan)
+  # 安装Bioconductor的R包phyloseq
+  if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+  suppressWarnings(suppressMessages(library(BiocManager)))
+  if (!requireNamespace("phyloseq", quietly=TRUE))
+    BiocManager::install("phyloseq")
   library(phyloseq)
 
   # 生成phyloseq对象
-  # ps = phyloseq(otu_table(otutab_rare, taxa_are_rows=TRUE),
+  # ps=phyloseq(otu_table(otutab_rare, taxa_are_rows=TRUE),
   #               sample_data(metadata))
+  ps1_rela =transform_sample_counts(ps, function(x) x / sum(x) );ps
 
-  ps1_rela  = transform_sample_counts(ps, function(x) x / sum(x) );ps1_rela
-  library(vegan)
   #-准备矩阵和分组文件
-  map = as.data.frame(sample_data(ps1_rela))
-
-  aa = levels(map$Group)
-  aa
-  aaa = combn(aa,2)
-  aaa
+  map=as.data.frame(sample_data(ps1_rela))# ,stringsAsFactors=T
+  # 转换为后，levels消失了，改用unique添加levels
+  map$Group=factor(map$Group, levels=unique(map$Group))
+  (aa=levels(map$Group))
+  (aaa=combn(aa,2))
   dim(aaa)[2]
 
   # 构建三个空列
-  ID = rep("a",dim(aaa)[2])
-  R = rep("a",dim(aaa)[2])
-  P = rep("a",dim(aaa)[2])
-  # i = 2
-  # as = as.matrix(unif)
+  ID=rep("a",dim(aaa)[2])
+  R=rep("a",dim(aaa)[2])
+  P=rep("a",dim(aaa)[2])
+  # i=1
   for (i in 1:dim(aaa)[2]) {
-    print(i)
-    Desep_group = aaa[,i]
-    map = as.data.frame(sample_data(ps1_rela))
-    head(map)
-    map$ID = row.names(map)
-    maps<- dplyr::filter(map,Group %in% Desep_group)
-    row.names(maps) = maps$ID
-    ps_sub = ps1_rela
-    sample_data( ps_sub ) = maps
-    # ps_sub <- phyloseq::subset_samples(ps1_rela,Group %in% Desep_group);ps_sub
-
-
-    ps_sub = phyloseq::filter_taxa(ps_sub, function(x) sum(x ) > 0 , TRUE);ps_sub
-    map = as.data.frame(sample_data(ps_sub))
+    # print(i)
+    Desep_group=aaa[,i]
+    map=as.data.frame(sample_data(ps1_rela))
+    # head(map)
+    map$ID=row.names(map)
+    # maps=dplyr::filter(map, Group %in% Desep_group)
+    # 取子集 #----
+    maps=subset(map, Group %in% Desep_group)
+    row.names(maps)=maps$ID
+    ps_sub=ps1_rela
+    sample_data(ps_sub)=maps
+    ps_sub=phyloseq::filter_taxa(ps_sub, function(x) sum(x ) > 0 , TRUE);ps_sub
+    map=as.data.frame(sample_data(ps_sub))
     unif <- phyloseq::distance(ps_sub, method=dist)
-    # # 取子集
-    #
-    # unif = as[map$ID,map$ID]
-    #
-
-    # print(ps_sub)
 
     if (Micromet == "MRPP") {
-      mrpp = vegan::mrpp(unif, map$Group)
-      as1 = round(mrpp$delta,3)
-      R2 <- paste("MRPP.delta ",as1, sep = "")
-      # R[i] = R2
+      mrpp=vegan::mrpp(unif, map$Group)
+      as1=round(mrpp$delta,3)
+      R2 <- paste("MRPP.delta ",as1, sep="")
+      # R[i]=R2
       R2
-      p_v = paste("p: ",round(mrpp$Pvalue,3), sep = "")
-      p_v
-      # P[i] = p_v
-
+      p_v=paste("p: ",round(mrpp$Pvalue,3), sep="")
+      # p_v
+      # P[i]=p_v
     }
 
     if (Micromet == "anosim") {
-      dat.ano = anosim(unif, map$Group)
-      a = round(dat.ano$statistic,3)
-      R2 <- paste("ANOSIM.r ",a, sep = "")
-      R[i] = R2
-      p_v = paste("p: ",round(dat.ano$signif,3), sep = "")
-      P[i] = p_v
-      # title = paste(R2," ",p_v, sep = "")
-      # title
-
+      dat.ano=anosim(unif, map$Group)
+      a=round(dat.ano$statistic,3)
+      R2 <- paste("ANOSIM.r ",a, sep="")
+      R[i]=R2
+      p_v=paste("p: ",round(dat.ano$signif,3), sep="")
+      # P[i]=p_v
     }
-  gg =map$Group
 
+    gg =map$Group
     if (Micromet == "adonis") {
-
-      ado =  adonis(unif~gg,permutations = 999)
-
-      a = round(as.data.frame(ado$aov.tab[5])[1,1],3)
-      R2 <- paste("adonis:R ",a, sep = "")
-      R[i] = R2
-      b = as.data.frame(ado$aov.tab[6])[1,1]
-      p_v = paste("p: ",b, sep = "")
-      P[i] = p_v
-      # title = paste(R2," ",p_v, sep = "")
-      # title
-      # print(i)
-      # print(R)
+      ado= adonis(unif~gg,permutations=999)
+      a=round(as.data.frame(ado$aov.tab[5])[1,1],3)
+      R2 <- paste("adonis:R ",a, sep="")
+      R[i]=R2
+      b=as.data.frame(ado$aov.tab[6])[1,1]
+      p_v=paste("p: ",b, sep="")
     }
-  print("iii")
-    ID[i] = paste(Desep_group[1],Desep_group[2],sep = "_VS_")
-    P[i] = p_v
-    R[i] = R2
+    ID[i]=paste(Desep_group[1],Desep_group[2],sep="_VS_")
+    P[i]=p_v
+    R[i]=R2
   }
-  P
-  R
-  result = data.frame(ID = ID,stat = R,p = P)
-  head(result)
+  # P
+  # R
+  result=data.frame(ID=ID,stat=R,p=P)
+  result
 
   return(result)
 }
