@@ -1,11 +1,10 @@
 # 绘制beta多样性组间统计
 #
 # This is the function named 'beta_pcoa_stat'
-# which draw PCoA scatter plot with stat ellipse, and reture a ggplot2 object
+# Similar with beta_pcoa, and save a table with P-value
 #
-#' @title Plotting beta diversity scatter plot
-#' @description Input alpha index and metadata, and manual set alpha index and metadata column names.
-#' ggplot2 show PCoA with color and stat ellipse.
+#' @title Calculate beta diversity p-value by Adonis
+#' @description Input distance matrix and metadata, and manual set metadata column names. Save a table with P-value by Adonis.
 #' @param dis_mat distance matrix, typical output of usearch -beta_div,
 #' @param metadata matrix or dataframe, including sampleID and groupID;
 #' @param groupID column name for groupID.
@@ -14,18 +13,32 @@
 #' @return ggplot2 object.
 #' @author Contact: Yong-Xin Liu \email{metagenome@@126.com}
 #' @references
-#' Zhang, J., Zhang, N., Liu, Y.X., Zhang, X., Hu, B., Qin, Y., Xu, H., Wang, H., Guo, X., Qian, J., et al. (2018).
-#' Root microbiota shift in rice correlates with resident time in the field and developmental stage.
-#' Sci China Life Sci 61, DOI: \url{https://doi.org/10.1007/s11427-018-9284-4}
-#' @seealso beta_cpcoa
+#'
+#' Yong-Xin Liu, Yuan Qin, Tong Chen, Meiping Lu, Xubo Qian, Xiaoxuan Guo & Yang Bai.
+#' A practical guide to amplicon and metagenomic analysis of microbiome data.
+#' Protein Cell, 2020(41), 1-16, DOI: \url{https://doi.org/10.1007/s13238-020-00724-8}
+#'
+#' Jingying Zhang, Yong-Xin Liu, Na Zhang, Bin Hu, Tao Jin, Haoran Xu, Yuan Qin, Pengxu Yan, Xiaoning Zhang, Xiaoxuan Guo, Jing Hui, Shouyun Cao, Xin Wang, Chao Wang, Hui Wang, Baoyuan Qu, Guangyi Fan, Lixing Yuan, Ruben Garrido-Oter, Chengcai Chu & Yang Bai.
+#' NRT1.1B is associated with root microbiota composition and nitrogen use in field-grown rice.
+#' Nature Biotechnology, 2019(37), 6:676-684, DOI: \url{https://doi.org/10.1038/s41587-019-0104-4}
+#'
+#' @seealso beta_pcoa
 #' @examples
-#' # Set 3 parameters: dis_mat, metadata and groupID
-#' beta_pcoa_stat(dis_mat = beta_bray_curtis, metadata, "genotype")
+#' # Set essential 3 parameters: distance matrix, metadata and groupID
+#' beta_pcoa_stat(beta_bray_curtis, metadata, "Group", "beta_pcoa_stat.txt")
 #' # Set 5 parameters: dis_mat, metadata, and groupID, pairwise FLASE, can set pairwise_list in file
-#' beta_pcoa_stat(dis_mat, metadata, groupID = "genotype", pairwise = TRUE, pairwise_list = "doc/compare.txt")
+#' beta_pcoa_stat(dis_mat, metadata, groupID="Group", pairwise=F, pairwise_list="vignettes/compare.txt")
 #' @export
 
-beta_pcoa_stat <- function(dis_mat, metadata, groupID = "genotype", pairwise = TRUE, pairwise_list = "doc/compare.txt") {
+beta_pcoa_stat <- function(dis_mat, metadata, groupID = "Group", result = "beta_pcoa_stat.txt", pairwise = T, pairwise_list = "vignettes/compare.txt") {
+
+  # # 测试默认参数
+  # dis_mat = beta_unifrac
+  # metadata = metadata
+  # groupID = "Group"
+  # result = "beta_pcoa_stat.txt"
+  # pairwise = T
+  # pairwise_list = "doc/compare.txt"
 
   # 依赖关系检测与安装
   p_list = c("vegan")
@@ -35,6 +48,7 @@ beta_pcoa_stat <- function(dis_mat, metadata, groupID = "genotype", pairwise = T
     library(p, character.only = TRUE, quietly = TRUE, warn.conflicts = FALSE)}
 
   metadata$group = metadata[[groupID]]
+  write.table(date(), file=result, append=T, sep="\t", quote=F, row.names=F, col.names=F)
 
   # Compare each group beta by vegan adonis in bray_curtis
   da_adonis = function(sampleV){
@@ -48,7 +62,7 @@ beta_pcoa_stat <- function(dis_mat, metadata, groupID = "genotype", pairwise = T
       adonis_pvalue = adonis_table$aov.tab$`Pr(>F)`[1]
       # print(paste("In ",opts$type," pvalue between", sampleA, "and", sampleB, "is", adonis_pvalue, sep=" "))
       adonis_pvalue = paste(sampleA, sampleB, adonis_pvalue, sep="\t")
-      write.table(adonis_pvalue, file=paste("beta_pcoa_stat", ".txt", sep=""), append = TRUE, sep="\t", quote=F, row.names=F, col.names=F)
+      write.table(adonis_pvalue, file=result, append = TRUE, sep="\t", quote=F, row.names=F, col.names=F)
     }
   }
 
@@ -69,7 +83,6 @@ beta_pcoa_stat <- function(dis_mat, metadata, groupID = "genotype", pairwise = T
     colnames(compare_data) = c("sampA", "sampB")
     for(i in 1:dim(compare_data)[1]){da_adonis(compare_data[i,])}
   }
-  adonis_pvalue = date()
-  write.table(adonis_pvalue, file=paste("beta_pcoa_stat", ".txt", sep=""), append = TRUE, sep="\t", quote=F, row.names=F, col.names=F)
+  write.table("", file=result, append=T, sep="\t", quote=F, row.names=F, col.names=F)
 
 }

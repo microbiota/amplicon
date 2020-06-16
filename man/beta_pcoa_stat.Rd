@@ -2,14 +2,15 @@
 % Please edit documentation in R/beta_pcoa_stat.R
 \name{beta_pcoa_stat}
 \alias{beta_pcoa_stat}
-\title{Plotting beta diversity scatter plot}
+\title{Calculate beta diversity p-value by Adonis}
 \usage{
 beta_pcoa_stat(
   dis_mat,
   metadata,
-  groupID = "genotype",
-  pairwise = TRUE,
-  pairwise_list = "doc/compare.txt"
+  groupID = "Group",
+  result = "beta_pcoa_stat.txt",
+  pairwise = T,
+  pairwise_list = "vignettes/compare.txt"
 )
 }
 \arguments{
@@ -27,22 +28,25 @@ beta_pcoa_stat(
 ggplot2 object.
 }
 \description{
-Input alpha index and metadata, and manual set alpha index and metadata column names.
-ggplot2 show PCoA with color and stat ellipse.
+Input distance matrix and metadata, and manual set metadata column names. Save a table with P-value by Adonis.
 }
 \examples{
-# Set 3 parameters: dis_mat, metadata and groupID
-beta_pcoa_stat(dis_mat = beta_bray_curtis, metadata, "genotype")
+# Set essential 3 parameters: distance matrix, metadata and groupID
+beta_pcoa_stat(beta_bray_curtis, metadata, "Group", "beta_pcoa_stat.txt")
 # Set 5 parameters: dis_mat, metadata, and groupID, pairwise FLASE, can set pairwise_list in file
-beta_pcoa_stat(dis_mat, metadata, groupID = "genotype", pairwise = TRUE, pairwise_list = "doc/compare.txt")
+beta_pcoa_stat(dis_mat, metadata, groupID="Group", pairwise=F, pairwise_list="vignettes/compare.txt")
 }
 \references{
-Zhang, J., Zhang, N., Liu, Y.X., Zhang, X., Hu, B., Qin, Y., Xu, H., Wang, H., Guo, X., Qian, J., et al. (2018).
-Root microbiota shift in rice correlates with resident time in the field and developmental stage.
-Sci China Life Sci 61, DOI: \url{https://doi.org/10.1007/s11427-018-9284-4}
+Yong-Xin Liu, Yuan Qin, Tong Chen, Meiping Lu, Xubo Qian, Xiaoxuan Guo & Yang Bai.
+A practical guide to amplicon and metagenomic analysis of microbiome data.
+Protein Cell, 2020(41), 1-16, DOI: \url{https://doi.org/10.1007/s13238-020-00724-8}
+
+Jingying Zhang, Yong-Xin Liu, Na Zhang, Bin Hu, Tao Jin, Haoran Xu, Yuan Qin, Pengxu Yan, Xiaoning Zhang, Xiaoxuan Guo, Jing Hui, Shouyun Cao, Xin Wang, Chao Wang, Hui Wang, Baoyuan Qu, Guangyi Fan, Lixing Yuan, Ruben Garrido-Oter, Chengcai Chu & Yang Bai.
+NRT1.1B is associated with root microbiota composition and nitrogen use in field-grown rice.
+Nature Biotechnology, 2019(37), 6:676-684, DOI: \url{https://doi.org/10.1038/s41587-019-0104-4}
 }
 \seealso{
-beta_cpcoa
+beta_pcoa
 }
 \author{
 Contact: Yong-Xin Liu \email{metagenome@126.com}

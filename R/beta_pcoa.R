@@ -4,7 +4,7 @@
 # which draw PCoA scatter plot with stat ellipse, and return a ggplot2 object
 #
 #' @title Plotting beta diversity scatter plot
-#' @description Input alpha index and metadata, and manual set  metadata column names.
+#' @description Input distance matrix and metadata, and manual set metadata column names.
 #' Visualize PCoA with color and stat ellipse by ggplot2.
 #' @param dis_mat distance matrix, typical output of usearch -beta_div,
 #' @param metadata matrix or dataframe, including sampleID and groupID;

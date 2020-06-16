@@ -30,7 +30,7 @@ beta_pcoa(
 ggplot2 object.
 }
 \description{
-Input alpha index and metadata, and manual set  metadata column names.
+Input distance matrix and metadata, and manual set metadata column names.
 Visualize PCoA with color and stat ellipse by ggplot2.
 }
 \details{
