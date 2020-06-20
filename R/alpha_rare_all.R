@@ -1,16 +1,16 @@
-# 绘制alpha多样性稀疏曲线 Alpha rarefracation curve
+# 基于特征表绘制alpha多样性稀疏曲线 Alpha rarefracation curve
 # This function named 'alpha_rare_all',
-# which draw curve by sample group,and curve with standard error by group with otutab and metadata, and return a ggplot2 object and plot data.
+# which draw curve by sample, or by group with standard error. The inputs are OTU table and metadata, and return a ggplot2 object and plot data.
 
-#' @title Plotting rarefracation curve for each sample or group
+#' @title Plotting rarefaction curve for each sample or group
 #' @description Input otutab and metadata, and manual set metadata column names.
-#' ggplot2 show lineplot, and/or standard error
+#' ggplot2 show line plot, and/or standard error
 #' @param otutab OTU/ASV table;
-#' @param metadata matrix or dataframe, including sampleID and groupID;
+#' @param metadata matrix or data frame, including sampleID and groupID;
 #' @param groupID column name for groupID, such as "Group".
-#' @param start resampling OTU/ASV table with the start number sequence count;
-#' @param step number of intervals for resampling
-#' @param method method for culculate alpha diversity,including "observed", "chao1", "diversity_shannon", "diversity_inverse_simpson", "diversity_gini_simpson", "diversity_fisher",  "diversity_coverage", "evenness_camargo", "evenness_pielou", "evenness_simpson", "evenness_evar", "evenness_bulla", "dominance_dbp",  "dominance_dmn", "dominance_absolute","dominance_relative", "dominance_simpson", "dominance_core_abundance" ,  "dominance_gini", "rarity_log_modulo_skewness", "rarity_low_abundance", "rarity_noncore_abundance",  "rarity_rare_abundance"
+#' @param start sampling OTU/ASV table with the start number sequence count;
+#' @param step number of intervals for sampling
+#' @param method method for calculate alpha diversity,including "observed", "chao1", "diversity_shannon", "diversity_inverse_simpson", "diversity_gini_simpson", "diversity_fisher",  "diversity_coverage", "evenness_camargo", "evenness_pielou", "evenness_simpson", "evenness_evar", "evenness_bulla", "dominance_dbp",  "dominance_dmn", "dominance_absolute","dominance_relative", "dominance_simpson", "dominance_core_abundance" ,  "dominance_gini", "rarity_log_modulo_skewness", "rarity_low_abundance", "rarity_noncore_abundance",  "rarity_rare_abundance"
 #' @details
 #' By default, returns a list with the curve and plot data
 #' \itemize{
@@ -20,13 +20,17 @@
 #' @author Contact: Tao Wen \email{2018203048@@njau.edu.cn}, Yong-Xin Liu \email{yxliu@@genetics.ac.cn}
 #' @references
 #'
+#' Yong-Xin Liu, Yuan Qin, Tong Chen, Meiping Lu, Xubo Qian, Xiaoxuan Guo & Yang Bai.
+#' A practical guide to amplicon and metagenomic analysis of microbiome data.
+#' Protein Cell, 2020(41), 1-16, DOI: \url{https://doi.org/10.1007/s13238-020-00724-8}
+#'
 #' Jingying Zhang, Yong-Xin Liu, Na Zhang, Bin Hu, Tao Jin, Haoran Xu, Yuan Qin, Pengxu Yan, Xiaoning Zhang, Xiaoxuan Guo, Jing Hui, Shouyun Cao, Xin Wang, Chao Wang, Hui Wang, Baoyuan Qu, Guangyi Fan, Lixing Yuan, Ruben Garrido-Oter, Chengcai Chu & Yang Bai.
 #' NRT1.1B is associated with root microbiota composition and nitrogen use in field-grown rice.
 #' Nature Biotechnology, 2019(37), 6:676-684, DOI: \url{https://doi.org/10.1038/s41587-019-0104-4}
 #'
 #' @seealso alpha_boxplot alpha_rare
 #' @examples
-#' # rare plot with otutab and map
+#' # rare plot with otutab and metadata
 #' result = alpha_rare_all(otu = otutab, map = metadata, group = "Group", method = "chao1", start = 200, step = 200)
 #' result[[1]]# output sample curve plot
 #' result[[2]]# data table

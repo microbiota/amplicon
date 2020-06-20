@@ -20,7 +20,7 @@ LazyData: true
 VignetteBuilder: knitr
 RoxygenNote: 7.1.0
 Roxygen: list(markdown = TRUE)
-URL: https://github.com/microbiota https://doi.org/10.1007/s11427-018-9284-4
+URL: https://github.com/microbiota/amplicon
 MailingList: metagenome <metagenome@126.com>
 BugReports: https://github.com/microbiota
 Packaged: 2018-12-09 23:59:59 UTC; windows

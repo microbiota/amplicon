@@ -2,7 +2,7 @@
 % Please edit documentation in R/alpha_rare_all.R
 \name{alpha_rare_all}
 \alias{alpha_rare_all}
-\title{Plotting rarefracation curve for each sample or group}
+\title{Plotting rarefaction curve for each sample or group}
 \usage{
 alpha_rare_all(
   otu = otutab,
@@ -15,15 +15,15 @@ alpha_rare_all(
 )
 }
 \arguments{
-\item{method}{method for culculate alpha diversity,including "observed", "chao1", "diversity_shannon", "diversity_inverse_simpson", "diversity_gini_simpson", "diversity_fisher",  "diversity_coverage", "evenness_camargo", "evenness_pielou", "evenness_simpson", "evenness_evar", "evenness_bulla", "dominance_dbp",  "dominance_dmn", "dominance_absolute","dominance_relative", "dominance_simpson", "dominance_core_abundance" ,  "dominance_gini", "rarity_log_modulo_skewness", "rarity_low_abundance", "rarity_noncore_abundance",  "rarity_rare_abundance"}
+\item{method}{method for calculate alpha diversity,including "observed", "chao1", "diversity_shannon", "diversity_inverse_simpson", "diversity_gini_simpson", "diversity_fisher",  "diversity_coverage", "evenness_camargo", "evenness_pielou", "evenness_simpson", "evenness_evar", "evenness_bulla", "dominance_dbp",  "dominance_dmn", "dominance_absolute","dominance_relative", "dominance_simpson", "dominance_core_abundance" ,  "dominance_gini", "rarity_log_modulo_skewness", "rarity_low_abundance", "rarity_noncore_abundance",  "rarity_rare_abundance"}
 
-\item{start}{resampling OTU/ASV table with the start number sequence count;}
+\item{start}{sampling OTU/ASV table with the start number sequence count;}
 
-\item{step}{number of intervals for resampling}
+\item{step}{number of intervals for sampling}
 
 \item{otutab}{OTU/ASV table;}
 
-\item{metadata}{matrix or dataframe, including sampleID and groupID;}
+\item{metadata}{matrix or data frame, including sampleID and groupID;}
 
 \item{groupID}{column name for groupID, such as "Group".}
 }
@@ -32,13 +32,13 @@ ggplot2 object.
 }
 \description{
 Input otutab and metadata, and manual set metadata column names.
-ggplot2 show lineplot, and/or standard error
+ggplot2 show line plot, and/or standard error
 }
 \details{
 
 }
 \examples{
-# rare plot with otutab and map
+# rare plot with otutab and metadata
 result = alpha_rare_all(otu = otutab, map = metadata, group = "Group", method = "chao1", start = 200, step = 200)
 result[[1]]# output sample curve plot
 result[[2]]# data table
@@ -51,6 +51,10 @@ result = alpha_rare_all(ps = ps, group = "Group", method = "chao1", start = 1000
 result[[4]]# output group curve with CI plot
 }
 \references{
+Yong-Xin Liu, Yuan Qin, Tong Chen, Meiping Lu, Xubo Qian, Xiaoxuan Guo & Yang Bai.
+A practical guide to amplicon and metagenomic analysis of microbiome data.
+Protein Cell, 2020(41), 1-16, DOI: \url{https://doi.org/10.1007/s13238-020-00724-8}
+
 Jingying Zhang, Yong-Xin Liu, Na Zhang, Bin Hu, Tao Jin, Haoran Xu, Yuan Qin, Pengxu Yan, Xiaoning Zhang, Xiaoxuan Guo, Jing Hui, Shouyun Cao, Xin Wang, Chao Wang, Hui Wang, Baoyuan Qu, Guangyi Fan, Lixing Yuan, Ruben Garrido-Oter, Chengcai Chu & Yang Bai.
 NRT1.1B is associated with root microbiota composition and nitrogen use in field-grown rice.
 Nature Biotechnology, 2019(37), 6:676-684, DOI: \url{https://doi.org/10.1038/s41587-019-0104-4}
