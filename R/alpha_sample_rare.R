@@ -30,7 +30,7 @@
 #' alpha_sample_rare(otutab, length=9)
 #' # Cutoff apparently affect trends
 #' alpha_sample_rare(otutab, count_cutoff=9)
-#' #' @export
+#' @export
 
 alpha_sample_rare = function(otutab, length=18, rep=30, count_cutoff=1){
 

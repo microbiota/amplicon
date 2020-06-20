@@ -31,7 +31,6 @@ alpha_sample_rare(otutab, length=18, rep=30, count_cutoff=1)
 alpha_sample_rare(otutab, length=9)
 # Cutoff apparently affect trends
 alpha_sample_rare(otutab, count_cutoff=9)
-#' @export
 }
 \references{
 Yong-Xin Liu, Yuan Qin, Tong Chen, Meiping Lu, Xubo Qian, Xiaoxuan Guo & Yang Bai.
