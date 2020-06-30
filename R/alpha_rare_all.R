@@ -118,7 +118,7 @@ alpha_rare_all =function(otu = otutab,map = metadata,ps = NULL,method = "Richnes
   if (is.null(ps) ) {
     head(otu)
     otu = as.matrix(otu)
-    str(otu)
+    # str(otu)
     map = map[group]
     colnames(map) = "Group"
     map$Group = as.factor(map$Group)

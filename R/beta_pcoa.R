@@ -45,7 +45,7 @@ beta_pcoa <- function(dis_mat, metadata, groupID="Group", ellipse=T, label=F, PC
   for(p in p_list){
     if (!requireNamespace(p)){
     install.packages(p)}
-    suppressWarnings(suppressMessages(library(p)))}
+  suppressWarnings(suppressMessages(library(p,character.only=T)))}
 
   # 测试默认参数
   # dis_mat=beta_unifrac
