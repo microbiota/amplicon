@@ -1,7 +1,7 @@
-# 样本或组的物种组成堆叠柱状图 Stackplot of taxonomy for samples and gorups
+# 样本或组的物种组成堆叠柱状图 Stackplot of taxonomy for samples and groups
 #
 # This is the function named 'tax_stackplot'
-# which draw Constrained PCoA scatter plot with stat ellipse, and reture a ggplot2 object
+# which draw stack plot, and return a ggplot2 object
 #
 #' @title Plotting stackplot of taxonomy for groups or samples
 #' @description Input taxonomy composition, and metadata (SampleID and groupID). Then select top N high abundance taxonomy and group other low abundance. When Select samples can draw sample composition by facet groups. If used group can show mean of each group. Finally, return a ggplot2 object.
@@ -22,24 +22,28 @@
 #' @author Contact: Yong-Xin Liu \email{metagenome@@126.com}
 #' @references
 #'
-#' Zhang, J., Zhang, N., Liu, Y.X., Zhang, X., Hu, B., Qin, Y., Xu, H., Wang, H., Guo, X., Qian, J., et al. (2018).
-#' Root microbiota shift in rice correlates with resident time in the field and developmental stage.
-#' Sci China Life Sci 61, DOI: \url{https://doi.org/10.1007/s11427-018-9284-4}
+#' Yong-Xin Liu, Yuan Qin, Tong Chen, Meiping Lu, Xubo Qian, Xiaoxuan Guo & Yang Bai.
+#' A practical guide to amplicon and metagenomic analysis of microbiome data.
+#' Protein Cell, 2020, DOI: \url{https://doi.org/10.1007/s13238-020-00724-8}
+#'
+#' Jingying Zhang, Yong-Xin Liu, Na Zhang, Bin Hu, Tao Jin, Haoran Xu, Yuan Qin, Pengxu Yan, Xiaoning Zhang, Xiaoxuan Guo, Jing Hui, Shouyun Cao, Xin Wang, Chao Wang, Hui Wang, Baoyuan Qu, Guangyi Fan, Lixing Yuan, Ruben Garrido-Oter, Chengcai Chu & Yang Bai.
+#' NRT1.1B is associated with root microbiota composition and nitrogen use in field-grown rice.
+#' Nature Biotechnology, 2019(37), 6:676-684, DOI: \url{https://doi.org/10.1038/s41587-019-0104-4}
 #'
 #' @seealso tax_stackplot
 #' @examples
-#' # example data: OTU table, rownames is OTU_xxx, colnames is SampleID
+#' # Taxonomy table in phylum level, rownames is Phylum, colnames is SampleID
 #' data(tax_phylum)
-#' # example data: metadata or design, include SampleID, genotype and site
+#' # metadata, include SampleID, Group and Site
 #' data(metadata)
-#' # Set 2 parameters: tax_sum table, metadata, default include top 8 taxonomy, groupID is genotype, show group mean and sorted by abundance
+#' # tax_sum and metadata as input, default include top 8 taxonomy, groupID is Group, show group mean and sorted by abundance
 #' tax_stackplot(tax_sum = tax_phylum, metadata)
-#' # Set 4 parameters: set top10 taxonomy, group by "site", and group composition
-#' tax_stackplot(tax_sum = tax_phylum, metadata, topN = 10, groupID = "site", style = "group", sorted = "abundance")
-#' # Set 4 parameters: set top7 taxonomy, group by "genotype", and sample composition sorted by alphabet
-#' tax_stackplot(tax_sum = tax_phylum, metadata, topN = 10, groupID = "genotype", style = "sample", sorted = "alphabet")
+#' # Set top10 taxonomy, group by "Site", group mean, and sort by abundance
+#' tax_stackplot(tax_sum = tax_phylum, metadata, topN = 10, groupID = "Site", style = "group", sorted = "abundance")
+#' # Set top 10 taxonomy, group by "Group", and sample composition sorted by alphabet
+#' tax_stackplot(tax_sum = tax_phylum, metadata, topN = 10, groupID = "Group", style = "sample", sorted = "alphabet")
 #' @export
-tax_stackplot <- function(tax_sum, metadata, topN = 8, groupID = "genotype", style = "group", sorted = "abundance") {
+tax_stackplot <- function(tax_sum, metadata, topN = 8, groupID = "Group", style = "group", sorted = "abundance") {
 
   # 依赖关系检测与安装
   p_list = c("ggplot2", "reshape2")
@@ -47,10 +51,12 @@ tax_stackplot <- function(tax_sum, metadata, topN = 8, groupID = "genotype", sty
     library(p, character.only = TRUE, quietly = TRUE, warn.conflicts = FALSE)}
 
   # 测试默认参数
+  # library(amplicon)
   # tax_sum = tax_phylum
   # topN = 8
-  # groupID = "genotype"
+  # groupID = "Group"
   # style = "group"
+  # sorted = "abundance"
 
   # 交叉筛选
   idx = rownames(metadata) %in% colnames(tax_sum)
@@ -115,7 +121,7 @@ tax_stackplot <- function(tax_sum, metadata, topN = 8, groupID = "genotype", sty
     if (sorted == "abundance"){
       data_all$Taxonomy  = factor(data_all$Taxonomy, levels=rownames(mean_sort))
     }
-
+    data_all$value = as.numeric(data_all$value)
     p = ggplot(data_all, aes(x=variable, y = value, fill = Taxonomy )) +
       geom_bar(stat = "identity",position="fill", width=0.7)+
       scale_y_continuous(labels = scales::percent) +
