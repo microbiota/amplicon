@@ -4,7 +4,7 @@
 \alias{tax_circlize}
 \title{Plotting circlize of taxonomy for groups or samples}
 \usage{
-tax_circlize(tax_sum, metadata, topN = 5, groupID = "genotype")
+tax_circlize(tax_sum, metadata, topN = 5, groupID = "Group")
 }
 \arguments{
 \item{tax_sum}{composition matrix, like OTU table and rowname is taxonomy, typical output of usearch -sintax_summary;}
@@ -34,17 +34,21 @@ The available style include the following:
 }
 }
 \examples{
-# example data: feature table, rownames is OTU/taxonomy, colnames is SampleID
+# Taxonomy table in phylum level, rownames is Phylum, colnames is SampleID
 data(tax_phylum)
-# example data: metadata or design, include SampleID, genotype and site
+# metadata, include SampleID, Group and Site
 data(metadata)
-# Set 4 parameters: set top 5 taxonomy, group by "genotype"
-tax_circlize(tax_sum = tax_phylum, metadata, topN = 5, groupID = "genotype")
+# Set 4 parameters: set top 5 taxonomy, group by "Group"
+tax_circlize(tax_sum = tax_phylum, metadata, topN = 5, groupID = "Group")
 }
 \references{
-Zhang, J., Zhang, N., Liu, Y.X., Zhang, X., Hu, B., Qin, Y., Xu, H., Wang, H., Guo, X., Qian, J., et al. (2018).
-Root microbiota shift in rice correlates with resident time in the field and developmental stage.
-Sci China Life Sci 61, DOI: \url{https://doi.org/10.1007/s11427-018-9284-4}
+Yong-Xin Liu, Yuan Qin, Tong Chen, Meiping Lu, Xubo Qian, Xiaoxuan Guo & Yang Bai.
+A practical guide to amplicon and metagenomic analysis of microbiome data.
+Protein Cell, 2020, DOI: \url{https://doi.org/10.1007/s13238-020-00724-8}
+
+Jingying Zhang, Yong-Xin Liu, Na Zhang, Bin Hu, Tao Jin, Haoran Xu, Yuan Qin, Pengxu Yan, Xiaoning Zhang, Xiaoxuan Guo, Jing Hui, Shouyun Cao, Xin Wang, Chao Wang, Hui Wang, Baoyuan Qu, Guangyi Fan, Lixing Yuan, Ruben Garrido-Oter, Chengcai Chu & Yang Bai.
+NRT1.1B is associated with root microbiota composition and nitrogen use in field-grown rice.
+Nature Biotechnology, 2019(37), 6:676-684, DOI: \url{https://doi.org/10.1038/s41587-019-0104-4}
 }
 \seealso{
 tax_circlize
