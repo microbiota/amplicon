@@ -22,9 +22,13 @@
 #' @author Contact: Yong-Xin Liu \email{metagenome@@126.com}
 #' @references
 #'
-#' Zhang, J., Zhang, N., Liu, Y.X., Zhang, X., Hu, B., Qin, Y., Xu, H., Wang, H., Guo, X., Qian, J., et al. (2018).
-#' Root microbiota shift in rice correlates with resident time in the field and developmental stage.
-#' Sci China Life Sci 61, DOI: \url{https://doi.org/10.1007/s11427-018-9284-4}
+#' Yong-Xin Liu, Yuan Qin, Tong Chen, Meiping Lu, Xubo Qian, Xiaoxuan Guo & Yang Bai.
+#' A practical guide to amplicon and metagenomic analysis of microbiome data.
+#' Protein Cell, 2020, DOI: \url{https://doi.org/10.1007/s13238-020-00724-8}
+#'
+#' Jingying Zhang, Yong-Xin Liu, Na Zhang, Bin Hu, Tao Jin, Haoran Xu, Yuan Qin, Pengxu Yan, Xiaoning Zhang, Xiaoxuan Guo, Jing Hui, Shouyun Cao, Xin Wang, Chao Wang, Hui Wang, Baoyuan Qu, Guangyi Fan, Lixing Yuan, Ruben Garrido-Oter, Chengcai Chu & Yang Bai.
+#' NRT1.1B is associated with root microbiota composition and nitrogen use in field-grown rice.
+#' Nature Biotechnology, 2019(37), 6:676-684, DOI: \url{https://doi.org/10.1038/s41587-019-0104-4}
 #'
 #' @seealso beta_cpcoa_dis
 #' @examples
@@ -96,9 +100,9 @@ beta_cpcoa_dis <- function(distance_mat, metadata, groupID = "genotype", ellipse
 
   # plot CPCo 1 and 2
   p = ggplot(points, aes(x=CAP1, y=CAP2, color=group)) + geom_point(alpha=.7, size=2) +
-    labs(x=paste("CCA 1 (", format(100 * eig[1] / sum(eig), digits=4), "%)", sep=""),
-         y=paste("CCA 2 (", format(100 * eig[2] / sum(eig), digits=4), "%)", sep=""), color=groupID) +
-    ggtitle(paste(format(100 * variance, digits=3), " % of variance; p=",format(p.val, digits=2),sep="")) +
+    labs(x=paste("CPCo 1 (", format(100 * eig[1] / sum(eig), digits=4), "%)", sep=""),
+         y=paste("CPCo 2 (", format(100 * eig[2] / sum(eig), digits=4), "%)", sep=""), color=groupID) +
+    ggtitle(paste(format(100 * variance, digits=3), " % of variance; P = ",format(p.val, digits=2),sep="")) +
     theme_classic() + theme(text=element_text(family="sans", size=7))
   # 是否添加置信椭圆
   if (ellipse == T){

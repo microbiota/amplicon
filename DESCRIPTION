@@ -20,7 +20,7 @@ License: GPL-2
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 URL: https://github.com/microbiota/amplicon
 MailingList: metagenome <metagenome@126.com>
