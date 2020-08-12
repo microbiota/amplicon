@@ -19,17 +19,21 @@ RDA_CCA(otu = otutab, map = metadata, ps = NULL, env = env, group = "Group")
 list object including plot, stat table
 }
 \description{
-Input otutab, metadata and environmental indicators or phyloseq object; support Automatic select which method : RDA or CCA were used for analyse; output ggplot2 figure, data and statistical test result.
+Input otutab, metadata and environmental factors or phyloseq object; support Automatic select which method : RDA or CCA were used for analyze; output ggplot2 plot, data and statistical test result.
 }
 \details{
-By default, input phyloseq object include metadata, otutab and env tabe
+By default, input phyloseq object include metadata, otutab and env table
 }
 \examples{
 
-RDA_CCA(otu = otu,map = map,ps = NULL,env = env,group = "Group")
+RDA_CCA(otu=otutab, map=metadata, ps=NULL, env=env, group="Group")
 
 }
 \references{
+Yong-Xin Liu, Yuan Qin, Tong Chen, Meiping Lu, Xubo Qian, Xiaoxuan Guo & Yang Bai.
+A practical guide to amplicon and metagenomic analysis of microbiome data.
+Protein Cell, 2020(41), 1-16, DOI: \url{https://doi.org/10.1007/s13238-020-00724-8}
+
 Jingying Zhang, Yong-Xin Liu, Na Zhang, Bin Hu, Tao Jin, Haoran Xu, Yuan Qin, Pengxu Yan, Xiaoning Zhang, Xiaoxuan Guo, Jing Hui, Shouyun Cao, Xin Wang, Chao Wang, Hui Wang, Baoyuan Qu, Guangyi Fan, Lixing Yuan, Ruben Garrido-Oter, Chengcai Chu & Yang Bai.
 NRT1.1B is associated with root microbiota composition and nitrogen use in field-grown rice.
 Nature Biotechnology, 2019(37), 6:676-684, DOI: \url{https://doi.org/10.1038/s41587-019-0104-4}
