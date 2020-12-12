@@ -48,10 +48,14 @@ tax_stack_clust <- function(
          tax=NULL,
          dist="bray",
          Group="Group",
-         j="Phylum", # 使用门水平绘制丰度图表
-         rep=6 ,# 重复数量是6个
-         Top=10, # 提取丰度前十的物种注释
-         tran=TRUE, # 转化为相对丰度值
+         # 使用门水平绘制丰度图表
+         j="Phylum",
+         # 重复数量是6个
+         rep=6,
+         # 提取丰度前十的物种注释
+         Top=10,
+         # 转化为相对丰度值
+         tran=TRUE,
          hcluter_method="complete",
          cuttree=3){
 
