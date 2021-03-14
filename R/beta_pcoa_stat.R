@@ -50,6 +50,11 @@ beta_pcoa_stat <- function(dis_mat, metadata, groupID = "Group", result = "beta_
   metadata$group = metadata[[groupID]]
   write.table(date(), file=result, append=T, sep="\t", quote=F, row.names=F, col.names=F)
 
+  # 交叉筛选
+  idx=rownames(metadata) %in% rownames(dis_mat)
+  metadata=metadata[idx,]
+  dis_mat=dis_mat[rownames(metadata), rownames(metadata)]
+
   # Compare each group beta by vegan adonis in bray_curtis
   da_adonis = function(sampleV){
     sampleA = as.matrix(sampleV$sampA)
