@@ -69,7 +69,7 @@ alpha_barplot <- function(alpha_div, metadata, index = "richness", groupID = "ge
 
   # 交叉筛选
   idx = rownames(metadata) %in% rownames(alpha_div)
-  metadata = metadata[idx,]
+  metadata = metadata[idx,,drop=F]
   alpha_div = alpha_div[rownames(metadata),]
 
   # 提取样品组信息,默认为group可指定

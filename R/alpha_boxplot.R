@@ -27,10 +27,6 @@
 #' A practical guide to amplicon and metagenomic analysis of microbiome data.
 #' Protein Cell, 2020(41), 1-16, DOI: \url{https://doi.org/10.1007/s13238-020-00724-8}
 #'
-#' Jingying Zhang, Yong-Xin Liu, Na Zhang, Bin Hu, Tao Jin, Haoran Xu, Yuan Qin, Pengxu Yan, Xiaoning Zhang, Xiaoxuan Guo, Jing Hui, Shouyun Cao, Xin Wang, Chao Wang, Hui Wang, Baoyuan Qu, Guangyi Fan, Lixing Yuan, Ruben Garrido-Oter, Chengcai Chu & Yang Bai.
-#' NRT1.1B is associated with root microbiota composition and nitrogen use in field-grown rice.
-#' Nature Biotechnology, 2019(37), 6:676-684, DOI: \url{https://doi.org/10.1038/s41587-019-0104-4}
-#'
 #' @seealso alpha_barplot
 #' @examples
 #' # Input alpha index (alpha_div) and metadata, select richness (index type) and Group (catagory)
@@ -52,11 +48,12 @@ alpha_boxplot <- function(alpha_div, metadata, index = "richness", groupID = "Gr
   # library(amplicon)
   # index = "richness"
   # groupID = "Group"
+  # metadata = read.table("metadata2.txt", header=T, row.names=1, sep="\t", comment.char="", stringsAsFactors = F)
   # metadata = subset(metadata, Group %in% c("KO","OE"))
 
   # 交叉筛选
   idx = rownames(metadata) %in% rownames(alpha_div)
-  metadata = metadata[idx,]
+  metadata = metadata[idx,,drop=F]
   alpha_div = alpha_div[rownames(metadata),]
 
   # 提取样品组信息,默认为group可指定

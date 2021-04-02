@@ -1,10 +1,10 @@
 Package: amplicon
 Type: Package
 Title: Statistics and visualization for microbiome data
-Version: 1.1.5
-Date: 2020-09-05
+Version: 1.11.0
+Date: 2021-04-03
 Author: Yong-Xin Liu, Tao Wen, Tong Chen
-Maintainer: Yong-Xin Liu <yxliu@genetics.ac.cn>; Yong-Xin Liu <2018203048@njau.edu.cn>
+Maintainer: Yong-Xin Liu <yxliu@genetics.ac.cn>; Tao Wen <2018203048@njau.edu.cn>
 Description: A basic statistics and plotting pipeline for amplicon data.
     1. Alpha boxplot with ANOVA + Tukey test / LSD.test;
     2. Alpha rarefraction curve in samples and groups with standard error;
@@ -18,6 +18,7 @@ Description: A basic statistics and plotting pipeline for amplicon data.
     1.1.3 2020-08-03 Debug code in R 4.0.2, such tax_stackplot
     1.1.4 2020-09-03 Update tax_wordcloud, add tax_stack_clust for tree+stackplot
     1.1.5 2020-09-05 Fix bug "下标出界" in beta_pcoa_stat.R, add intersect metadata and distance matrix 
+    1.11.0 2021-04-03 Fix bug metadata only 2 columns cause "Error in metadata[, groupID] : 量度数目不对" 
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
@@ -29,7 +30,7 @@ MailingList: metagenome <metagenome@126.com>
 BugReports: https://github.com/microbiota
 Packaged: 2018-12-09 23:59:59 UTC; windows
 Depends:
-    R (>= 3.5.0),
+    R (>= 4.0.0),
     ggplot2
 Imports:
     ggrepel,

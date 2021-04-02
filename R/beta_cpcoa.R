@@ -65,7 +65,7 @@ beta_cpcoa <- function(otutab, metadata, dis = "bray", groupID = "Group", ellips
 
   # 交叉筛选
   idx = rownames(metadata) %in% colnames(otutab)
-  metadata = metadata[idx,]
+  metadata = metadata[idx,,drop=F]
   otutab = otutab[, rownames(metadata)]
 
   # 提取样品组信息,默认为group可指定

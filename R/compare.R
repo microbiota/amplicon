@@ -68,7 +68,7 @@ compare <- function(data = otutab, metadata = metadata, group = "genotype", comp
 # fdr = opts$fdr
 #----交叉筛选#----
 idx = rownames(metadata) %in% colnames(data)
-metadata = metadata[idx,]
+metadata = metadata[idx,,drop=F]
 data = data[, rownames(metadata)]
 
 #----丰度过滤#----
@@ -84,7 +84,7 @@ data = data[idx, ]
 group_list = strsplit(compare_pair,'-')[[1]]
 metadata$group=metadata[,group]
 idx = metadata$group %in% group_list
-sub_metadata = metadata[idx,]
+sub_metadata = metadata[idx,,drop=F]
 sub_dat=as.matrix(data[, rownames(sub_metadata)])
 
 

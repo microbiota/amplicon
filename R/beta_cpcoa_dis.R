@@ -64,7 +64,7 @@ beta_cpcoa_dis <- function(distance_mat, metadata, groupID = "genotype", ellipse
 
   # 交叉筛选
   idx = rownames(metadata) %in% colnames(distance_mat)
-  metadata = metadata[idx,]
+  metadata = metadata[idx,,drop=F]
   distance_mat = distance_mat[rownames(metadata), rownames(metadata)]
 
   # 提取样品组信息,默认为group可指定

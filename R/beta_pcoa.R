@@ -57,7 +57,7 @@ beta_pcoa <- function(dis_mat, metadata, groupID="Group", ellipse=T, label=F, PC
 
   # 交叉筛选
   idx=rownames(metadata) %in% rownames(dis_mat)
-  metadata=metadata[idx,]
+  metadata=metadata[idx,,drop=F]
   dis_mat=dis_mat[rownames(metadata), rownames(metadata)]
 
   # 提取样品组信息,默认为group可指定

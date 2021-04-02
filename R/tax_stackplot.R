@@ -60,7 +60,7 @@ tax_stackplot <- function(tax_sum, metadata, topN = 8, groupID = "Group", style 
 
   # 交叉筛选
   idx = rownames(metadata) %in% colnames(tax_sum)
-  metadata = metadata[idx,]
+  metadata = metadata[idx,,drop=F]
   tax_sum = tax_sum[, rownames(metadata)]
 
   # 提取样品组信息,默认为group可指定

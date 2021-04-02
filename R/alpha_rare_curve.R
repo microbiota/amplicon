@@ -49,7 +49,7 @@ alpha_rare_curve <- function(alpha_rare, metadata, groupID = "Group") {
 
   # 交叉筛选
   idx = rownames(metadata) %in% colnames(alpha_rare)
-  metadata = metadata[idx,]
+  metadata = metadata[idx,,drop=F]
   alpha_rare = alpha_rare[,rownames(metadata)]
 
   # 提取样品组信息,默认为group可指定

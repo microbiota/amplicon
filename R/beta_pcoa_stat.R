@@ -52,7 +52,7 @@ beta_pcoa_stat <- function(dis_mat, metadata, groupID = "Group", result = "beta_
 
   # 交叉筛选
   idx=rownames(metadata) %in% rownames(dis_mat)
-  metadata=metadata[idx,]
+  metadata=metadata[idx,,drop=F]
   dis_mat=dis_mat[rownames(metadata), rownames(metadata)]
 
   # Compare each group beta by vegan adonis in bray_curtis
