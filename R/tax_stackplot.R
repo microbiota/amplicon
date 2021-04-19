@@ -24,11 +24,7 @@
 #'
 #' Yong-Xin Liu, Yuan Qin, Tong Chen, Meiping Lu, Xubo Qian, Xiaoxuan Guo & Yang Bai.
 #' A practical guide to amplicon and metagenomic analysis of microbiome data.
-#' Protein Cell, 2020, DOI: \url{https://doi.org/10.1007/s13238-020-00724-8}
-#'
-#' Jingying Zhang, Yong-Xin Liu, Na Zhang, Bin Hu, Tao Jin, Haoran Xu, Yuan Qin, Pengxu Yan, Xiaoning Zhang, Xiaoxuan Guo, Jing Hui, Shouyun Cao, Xin Wang, Chao Wang, Hui Wang, Baoyuan Qu, Guangyi Fan, Lixing Yuan, Ruben Garrido-Oter, Chengcai Chu & Yang Bai.
-#' NRT1.1B is associated with root microbiota composition and nitrogen use in field-grown rice.
-#' Nature Biotechnology, 2019(37), 6:676-684, DOI: \url{https://doi.org/10.1038/s41587-019-0104-4}
+#' Protein Cell, 2020(41), 1-16, DOI: \url{https://doi.org/10.1007/s13238-020-00724-8}
 #'
 #' @seealso tax_stackplot
 #' @examples
@@ -69,6 +65,9 @@ tax_stackplot <- function(tax_sum, metadata, topN = 8, groupID = "Group", style 
 
   # 按丰度降序排序
   mean_sort = as.data.frame(tax_sum[(order(-rowSums(tax_sum))), ])
+  # 把末分类调整到最后面
+  idx = grepl("unassigned|unclassified|unknown", rownames(mean_sort), ignore.case = T)
+  mean_sort = rbind(mean_sort[!idx,],mean_sort[idx,])
   # 筛选前N类，其它归为Other，可设置不同组数
   other = colSums(mean_sort[topN:dim(mean_sort)[1], ])
   mean_sort = mean_sort[1:(topN - 1), ]

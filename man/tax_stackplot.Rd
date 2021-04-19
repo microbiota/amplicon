@@ -55,11 +55,7 @@ tax_stackplot(tax_sum = tax_phylum, metadata, topN = 10, groupID = "Group", styl
 \references{
 Yong-Xin Liu, Yuan Qin, Tong Chen, Meiping Lu, Xubo Qian, Xiaoxuan Guo & Yang Bai.
 A practical guide to amplicon and metagenomic analysis of microbiome data.
-Protein Cell, 2020, DOI: \url{https://doi.org/10.1007/s13238-020-00724-8}
-
-Jingying Zhang, Yong-Xin Liu, Na Zhang, Bin Hu, Tao Jin, Haoran Xu, Yuan Qin, Pengxu Yan, Xiaoning Zhang, Xiaoxuan Guo, Jing Hui, Shouyun Cao, Xin Wang, Chao Wang, Hui Wang, Baoyuan Qu, Guangyi Fan, Lixing Yuan, Ruben Garrido-Oter, Chengcai Chu & Yang Bai.
-NRT1.1B is associated with root microbiota composition and nitrogen use in field-grown rice.
-Nature Biotechnology, 2019(37), 6:676-684, DOI: \url{https://doi.org/10.1038/s41587-019-0104-4}
+Protein Cell, 2020(41), 1-16, DOI: \url{https://doi.org/10.1007/s13238-020-00724-8}
 }
 \seealso{
 tax_stackplot

@@ -14,6 +14,7 @@
 #' @param method method of test.
 #' @param pvalue threshold of pvalue.
 #' @param fdr threshold of fdr.
+#' @param normalize data normalize to 100%, default T, turn off by F.
 #' @details
 #' By default, return table
 #' The available test methods include the following:
@@ -25,21 +26,19 @@
 #' @author Contact: Yong-Xin Liu \email{metagenome@@126.com}
 #' @references
 #'
-#' Jingying Zhang, Yong-Xin Liu, et. al. (2019).
-#' NRT1.1B is associated with root microbiota composition and nitrogen use in field-grown rice.
-#' Nature Biotechnology 37, 676-684, DOI: \url{https://doi.org/10.1038/s41587-019-0104-4}
+#' Yong-Xin Liu, Yuan Qin, Tong Chen, Meiping Lu, Xubo Qian, Xiaoxuan Guo & Yang Bai.
+#' A practical guide to amplicon and metagenomic analysis of microbiome data.
+#' Protein Cell, 2020(41), 1-16, DOI: \url{https://doi.org/10.1007/s13238-020-00724-8}
 #'
 #' @seealso compare_vocalno compare_heatmap compare_manhattan
 #' @examples
-#' # Set 4 parameters
-#' compare(data, metadata, group, compare, method)
-#' # Set 4 parameters
-#' compare(data, metadata, group, compare, method, RA, pvalue, fdr)
+#' # Table, metadata, groupID, compare pair and method (wilcoxon test)
+#' compare(data = otutab, metadata = metadata, group = "Group", compare_pair = "KO-WT", method = "wilcox")
+#' # Filter by 0.01% relative abundance, Pvalue and FDR, not normalize
+#' compare(data = otutab, metadata = metadata, group = "Group", compare_pair = "KO-WT", method = "wilcox", RA = 0.01, pvalue = 0.05, fdr = 0.1, normalize = F)
 #' @export
 
-
-
-compare <- function(data = otutab, metadata = metadata, group = "genotype", compare_pair = "KO-WT", method = "wilcox", RA = 0.01, pvalue = 0.05, fdr = 0.1) {
+compare <- function(data = otutab, metadata = metadata, group = "Group", compare_pair = "KO-WT", method = "wilcox", RA = 0.01, pvalue = 0.05, fdr = 0.1, normalize = T) {
 
 # 依赖关系检测与安装
 # p_list = c("edgeR", "DESeq2")
@@ -51,12 +50,13 @@ compare <- function(data = otutab, metadata = metadata, group = "genotype", comp
 #----测试默认参数#----
 # data = otutab
 # metadata = metadata
-# group = "genotype"
-# method = "edgeR"
+# group = "Group"
+# method = "wilcox"
 # compare_pair = "KO-WT"
 # RA = 0.05
 # pvalue = 0.05
 # fdr = 0.1
+# normalize = F
 #----测试命令行参数#----
 # data = otutab
 # metadata = metadata
@@ -66,6 +66,7 @@ compare <- function(data = otutab, metadata = metadata, group = "genotype", comp
 # RA = opts$threshold
 # pvalue = opts$pvalue
 # fdr = opts$fdr
+# normalize = opts$normalize
 #----交叉筛选#----
 idx = rownames(metadata) %in% colnames(data)
 metadata = metadata[idx,,drop=F]
@@ -73,7 +74,11 @@ data = data[, rownames(metadata)]
 
 #----丰度过滤#----
 # 标准化为百分比
-norm = t(t(data)/colSums(data,na=T)*100)
+if (normalize){
+  norm = t(t(data)/colSums(data,na=T)*100)
+}else{
+  norm = as.matrix(data)
+}
 # 按丰度筛选标准化特征表和原始值
 idx = rowMeans(norm) > RA
 norm = norm[idx, ]
@@ -133,7 +138,7 @@ if (method == "edgeR"){
   GroupB = norm[,rownames(sub_metadata[idx,,drop=F])]
 
   nrDAF = data.frame(list=rownames(norm), row.names =rownames(norm) )
-  # 对每行Feature进行秩合检验
+  # 对每行Feature进行t检验
   for ( i in 1:dim(nrDAF)[1]){
     FC = (mean(GroupA[i,])+0.0000001)/(mean(GroupB[i,])+0.0000001)
     nrDAF[i,2]=log2(FC)

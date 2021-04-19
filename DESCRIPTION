@@ -1,8 +1,8 @@
 Package: amplicon
 Type: Package
 Title: Statistics and visualization for microbiome data
-Version: 1.11.0
-Date: 2021-04-03
+Version: 1.11.1
+Date: 2021-04-04
 Author: Yong-Xin Liu, Tao Wen, Tong Chen
 Maintainer: Yong-Xin Liu <yxliu@genetics.ac.cn>; Tao Wen <2018203048@njau.edu.cn>
 Description: A basic statistics and plotting pipeline for amplicon data.
@@ -19,6 +19,7 @@ Description: A basic statistics and plotting pipeline for amplicon data.
     1.1.4 2020-09-03 Update tax_wordcloud, add tax_stack_clust for tree+stackplot
     1.1.5 2020-09-05 Fix bug "下标出界" in beta_pcoa_stat.R, add intersect metadata and distance matrix 
     1.11.0 2021-04-03 Fix bug metadata only 2 columns cause "Error in metadata[, groupID] : 量度数目不对" 
+    1.11.1 2021-04-04 Using multcomp 解决字母顺序相反的问题(alpha_boxplot);tax_stackplot中修改Unassigned至Other组;compare增加不标准化的normlize参数
 License: GPL-2
 Encoding: UTF-8
 LazyData: true

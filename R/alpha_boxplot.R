@@ -84,8 +84,13 @@ alpha_boxplot <- function(alpha_div, metadata, index = "richness", groupID = "Gr
     # 转换P值为字母分组
     ## 提取图基检验中分组子表的第4列P adjust值
     Tukey.levels = TUKEY[[variable]][,4]
-    ## multcompLetters函数将两两p值转换为字母，data.frame并生成列名为Letters的数据框
+    # 方法1.multcompLetters函数将两两p值转换为字母，data.frame并生成列名为Letters的数据框
     Tukey.labels = data.frame(multcompLetters(Tukey.levels)['Letters'])
+    # 方法2. 解决字母顺序相反的问题
+    # library(multcomp)
+    # tuk <- cld(glht(model, alternative = 'two.sided', linfct = mcp(group = 'Tukey')), sig = p, decreasing = TRUE)
+    # Tukey.labels <- data.frame(Letters=tuk$mcletters$Letters, stringsAsFactors = FALSE)
+
     # 按分组名字母顺序
     ## 提取字母分组行名为group组名
     Tukey.labels$group = rownames(Tukey.labels)
