@@ -97,7 +97,9 @@ tax_stackplot <- function(tax_sum, metadata, topN = 8, groupID = "Group", style 
     theme(axis.ticks.x = element_blank(), axis.text.x = element_blank())+
     xlab("Groups")+ylab("Percentage (%)")+
     theme_classic()+theme(axis.text.x=element_text(angle=45,vjust=1, hjust=1))+
-    theme(text=element_text(family="sans", size=7))
+    theme(text=element_text(family="sans", size=7)) +
+	theme(legend.key.height = unit(2.5, 'mm'),
+	      legend.key.width = unit(5, 'mm'))
   p
   }else{
     # 按组合并求均值
@@ -124,8 +126,10 @@ tax_stackplot <- function(tax_sum, metadata, topN = 8, groupID = "Group", style 
     p = ggplot(data_all, aes(x=variable, y = value, fill = Taxonomy )) +
       geom_bar(stat = "identity",position="fill", width=0.7)+
       scale_y_continuous(labels = scales::percent) +
-      xlab("Groups")+ylab("Percentage (%)")+ theme_classic()+
-      theme(text=element_text(family="sans", size=7))
+      xlab("Groups")+ylab("Percentage (%)")+ theme_classic() +
+      theme(text=element_text(family="sans", size=7)) +
+	  theme(legend.key.height = unit(2.5, 'mm'),
+	        legend.key.width = unit(5, 'mm'))
     p
   }
 }

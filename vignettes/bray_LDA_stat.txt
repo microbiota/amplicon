@@ -1,4 +1,4 @@
 ID	stat	p
-1	KO_VS_OE	adonis:R 0.258	p: 0.005
-2	KO_VS_WT	adonis:R 0.208	p: 0.01
-3	OE_VS_WT	adonis:R 0.169	p: 0.013
+1	KO_VS_OE	adonis:R 0.258	p: 0.006
+2	KO_VS_WT	adonis:R 0.208	p: 0.013
+3	OE_VS_WT	adonis:R 0.169	p: 0.009

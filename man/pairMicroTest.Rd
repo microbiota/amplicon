@@ -41,7 +41,7 @@ The available diversity indices include the following:
 }
 \examples{
 # Input phyloseq format input, and options group, method and distance
-# 鐢熸垚phyloseq瀵硅薄
+# ç”Ÿæˆphyloseqå¯¹è±¡
 ps=phyloseq(otu_table(otutab_rare, taxa_are_rows=TRUE), sample_data(metadata))
 pairMicroTest (ps=ps, Micromet="anosim", dist="bray")
 }

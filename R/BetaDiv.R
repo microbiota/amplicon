@@ -117,7 +117,8 @@ if (method == "RDA") {
   ordi=ordinate(ps1_rela, method=method, distance=dist)
   #样本坐标,这里可选u或者v矩阵
   points=ordi$CA$v[,1:2]
-  colnames(points)=c("x", "y") #命名行名
+  #命名行名
+  colnames(points)=c("x", "y")
   #提取特征值
   eig=ordi$CA$eig
 }
@@ -167,7 +168,8 @@ if (method == "LDA") {
   ord_in=model
   axes=c(1:2)
   points=data.frame(predict(ord_in)$x[, axes])
-  colnames(points)=c("x", "y") #命名行名
+  # 命名行名
+  colnames(points)=c("x", "y")
   # 提取解释度
   eig= ord_in$svd^2
 }
@@ -198,7 +200,8 @@ if (method == "t-sne") {
   # 提取坐标
   points=as.data.frame(tsne$Y)
   row.names(points)= row.names(map)
-  colnames(points)=c("x", "y") #命名行名
+  # 命名行名
+  colnames(points)=c("x", "y")
   stress= NULL
 }
 
