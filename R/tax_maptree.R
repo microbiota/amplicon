@@ -84,7 +84,7 @@ tax_maptree = function(x){
   data = create_layout(mygraph, layout = 'circlepack',weight = mean, sort.by = NULL, direction = "out")
   #设置颜色
   data$Phylum = as.character(data$Phylum)
-  data$Phylum[is.na(data$Phylum)] = "AA"
+  data$Phylum[is.na(data$Phylum)] = "others"
   data$Phylum = factor(data$Phylum,levels =unique(data$Phylum) )
   colbar <-length(unique(data$Phylum))
   fil_colors = colorRampPalette(c( "white","#CBD588", "#599861", "orange","#DA5724", "#508578", "#CD9BCD",
@@ -92,11 +92,12 @@ tax_maptree = function(x){
                                    "#8569D5", "#5E738F","#D1A33D", "#8A7C64","black"))(colbar)
   names(fil_colors ) = unique(data$Phylum)
   fil_colors[1] = "white"
-  p = ggraph(mygraph, layout = 'circlepack',weight = mean, sort.by = NULL, direction = "out") +
-    geom_node_circle(aes(fill = as.factor(Phylum),color = as.factor(depth) ) ) +
+  
+  p = ggplot(data = data) +
+    geom_node_circle(aes(fill = as.factor(Phylum) ) ) +
     scale_fill_manual(values= fil_colors ) +
-    scale_color_manual( values=c("0" = "white", "1" = "black", "2" = "black", "3" = "black", "4"="black", "5"="black", "6"="black", "7"="black") ) +
-    geom_node_text( aes(label=new_label), size=6,repel = TRUE) +
+    scale_color_manual( values=c("0" = "white", "1" = "black", "2" = "black", "3" = "black", "4"="black", "5"="black", "6"="black", "7"="black"),guide = FALSE ) +
+    geom_node_text( aes(label=new_label), size=6,repel = TRUE)  +
     # geom_node_label( aes(label=new_label), size=3,repel = TRUE) +
     theme_void() +
     theme( legend.position="FALSE",plot.margin = unit(rep(0,4), "cm"))#
