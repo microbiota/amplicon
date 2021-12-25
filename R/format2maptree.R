@@ -26,6 +26,8 @@
 #' @seealso tax_maptree
 #' @examples
 #' # Input feature table, taxonomy and Top N features, and format into mapdata
+#' otutab = otutab %>% as.matrix()
+#' taxonomy = taxonomy %>% as.matrix()
 #' mapdata = format2maptree(otutab, taxonomy, 200)
 #' # Add mean abundance size and phylum color for maptree
 #' mapadd = tax_maptree(mapdata)
@@ -58,8 +60,8 @@ format2maptree = function(otu = otutab, tax = taxonomy, N = 200){
 
     return(as(tax,"matrix"))
   }
-  ps <- phyloseq::phyloseq(otu_table(otu, taxa_are_rows=TRUE),
-                 tax_table(tax)
+  ps <- phyloseq::phyloseq(otu_table(as.matrix(otu), taxa_are_rows=TRUE),
+                 tax_table(as.matrix(tax))
   )
   #相对丰富转换
   ps1_rela  = transform_sample_counts(ps, function(x) x / sum(x) );ps1_rela
@@ -78,7 +80,7 @@ format2maptree = function(otu = otutab, tax = taxonomy, N = 200){
 
   #对phyloseq取子集
   ps_sub <- phyloseq(otu_table(subtab, taxa_are_rows=TRUE),
-                     tax_table(tax))
+                     tax_table(as.matrix(tax)))
   ps_sub
   #--------------------整理tax文件-----------------
   #注意我们本次制作的是OTU水平的maptree
