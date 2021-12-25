@@ -26,6 +26,8 @@
 #' @seealso tax_maptree
 #' @examples
 #' # Input feature table, taxonomy and Top N features, and format into mapdata
+#' otutab = otutab %>% as.matrix()
+#' taxonomy = taxonomy %>% as.matrix()
 #' mapdata = format2maptree(otutab, taxonomy, 200)
 #' # Add mean abundance size and phylum color for maptree
 #' mapadd = tax_maptree(mapdata)
