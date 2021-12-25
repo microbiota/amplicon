@@ -144,8 +144,8 @@ format2maptree = function(otu = otutab, tax = taxonomy, N = 200){
   #----------------------------------构造网络文件------------------------------
   mygraph <- graph_from_data_frame( deg, vertices= vertices_t )
 
-  p = ggplot(data = data) +
-    geom_node_circle(aes(fill = as.factor(Phylum) ) ) +
+  p = ggraph(mygraph, layout = 'circlepack', sort.by = NULL, direction = "out") +
+    geom_node_circle(aes(fill = as.factor(depth),color = as.factor(depth) ) ) +
     scale_fill_manual(values= c("white","white","white","white","white","white","white","yellow") ) +
     scale_color_manual( values=c("0" = "white", "1" = "black", "2" = "black", "3" = "black", "4"="black", "5"="black", "6"="black", "7"="black") ) +
     geom_node_text( aes(label=new_label), size=6,repel = TRUE) +
