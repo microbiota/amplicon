@@ -118,7 +118,7 @@ alpha_boxplot <- function(alpha_div, metadata, index = "richness", groupID = "Gr
   max=max(df[,c(index)])
   min=min(df[,index])
   x = df[,c("group",index)]
-  y = x %>% group_by(group) %>% summarise_(Max=paste('max(',index,')',sep=""))
+  y = x %>% group_by(group) %>% summarise(Max=paste('max(',index,')',sep=""))
   y=as.data.frame(y)
   rownames(y)=y$group
   df$y=y[as.character(df$group),]$Max + (max-min)*0.05
