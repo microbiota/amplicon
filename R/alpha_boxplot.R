@@ -65,7 +65,7 @@ alpha_boxplot <- function(alpha_div, metadata, index = "richness", groupID = "Gr
   colnames(df) = c(index,"group")
 
   # 统计各种显著性
-  model = aov(df[[index]] ~ group, data=df)
+  model = aov(.data[[index]] ~ group, df)
   # 计算Tukey显著性差异检验
   Tukey_HSD = TukeyHSD(model, ordered = TRUE, conf.level = 0.95)
   # 提取比较结果
