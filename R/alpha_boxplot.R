@@ -35,7 +35,9 @@
 #' alpha_boxplot(alpha_div = alpha_div, metadata = metadata, index = "shannon_2", groupID = "Site")
 #' @export
 
-alpha_boxplot <- function(alpha_div, metadata, index = "richness", groupID = "Group") {
+alpha_boxplot <- function(alpha_div, metadata, index = "richness", groupID = "Group",
+                          outlier = TRUE
+                          ) {
   # 依赖关系检测与安装
   p_list = c("ggplot2", "dplyr", "multcompView") # "agricolae"
   for(p in p_list){
@@ -123,12 +125,34 @@ alpha_boxplot <- function(alpha_div, metadata, index = "richness", groupID = "Gr
   rownames(y)=y$group
   df$y=y[as.character(df$group),]$Max + (max-min)*0.05
 
-  # 绘图 plotting
-  p = ggplot(df, aes(x=group, y=df[[index]], color=group)) +
-    geom_boxplot(alpha=1, outlier.shape = NA, outlier.size=0, size=0.7, width=0.5, fill="transparent") +
-    labs(x="Groups", y=paste(index, "index"), color=groupID) + theme_classic() +
-    geom_text(data=df, aes(x=group, y=y, color=group, label=stat)) +
-    geom_jitter(position=position_jitter(0.17), size=1, alpha=0.7)+
-    theme(text=element_text(family="sans", size=7))
-  p
+
+  if (outlier) {
+    # 绘图 plotting
+    p = ggplot(df, aes(x=group, y=.data[[index]], color=group)) +
+      geom_boxplot(alpha=1,
+                   # outlier.shape = NA,
+                   # outlier.size=0,
+                   size=0.7,
+                   width=0.5, fill="transparent") +
+      labs(x="Groups", y=paste(index, "index"), color=groupID) + theme_classic() +
+      geom_text(data=df, aes(x=group, y=y, color=group, label=stat)) +
+      geom_jitter(position=position_jitter(0.17), size=1, alpha=0.7)+
+      theme(text=element_text(family="sans", size=7))
+    p
+  } else{
+    # 绘图 plotting
+    p = ggplot(df, aes(x=group, y=.data[[index]], color=group)) +
+      geom_boxplot(alpha=1,
+                   outlier.shape = NA,
+                   outlier.size=0,
+                   size=0.7,
+                   width=0.5, fill="transparent") +
+      labs(x="Groups", y=paste(index, "index"), color=groupID) + theme_classic() +
+      geom_text(data=df, aes(x=group, y=y, color=group, label=stat)) +
+      geom_jitter(position=position_jitter(0.17), size=1, alpha=0.7)+
+      theme(text=element_text(family="sans", size=7))
+    p
+  }
+
+
 }
