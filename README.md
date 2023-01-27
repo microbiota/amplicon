@@ -31,8 +31,8 @@ Please open RStudio， and run the following code for install.
     library(devtools)
     install_github("microbiota/amplicon")
     
-Version: 1.14.2
-Date: 2021-12-12
+Version: 1.18.0
+Date: 2023-1-27
 Author: Yong-Xin Liu, Tao Wen, Tong Chen
 Maintainer: Yong-Xin Liu <yxliu@genetics.ac.cn>; Tao Wen <2018203048@njau.edu.cn>; Tong Chen <chent@nrc.ac.cn>
 Description: A basic statistics and plotting pipeline for amplicon data.
@@ -52,3 +52,6 @@ Description: A basic statistics and plotting pipeline for amplicon data.
     1.11.1 2021-04-04 Using multcomp 解决字母顺序相反的问题(alpha_boxplot);tax_stackplot中修改Unassigned至Other组;compare增加不标准化的normlize参数
     1.14.1 2021-10-16 陈同新增堆叠柱状图分面功能
     1.14.2 2021-12-12 文涛更新tax_treemap.R
+    1.14.2 2022-11-06 文涛更新alpha_boxplot.R，default keep outlier
+    1.18.0 2023-1-27 update full package
+
