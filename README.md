@@ -29,7 +29,7 @@ The EasyAmplicon pipeline mainly include three steps. Dimensionality reduction: 
 Please open RStudio， and run the following code for install.
 
     library(devtools)
-    install_github("microbiota/amplicon")
+    install_github("liaochenlanruo/amplicon")
     
 Version: 1.14.2
 Date: 2021-12-12

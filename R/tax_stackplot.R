@@ -116,7 +116,7 @@ tax_stackplot <-
                  position = "fill",
                  width = 1) +
         scale_y_continuous(labels = scales::percent) +
-        facet_grid(~ group, scales = "free_x", switch = "x") +
+        facet_grid(~ group, scales = "free_x", switch = "x", space = "free_x") +
         theme(strip.background = element_blank()) +
         theme(axis.ticks.x = element_blank(), axis.text.x = element_blank()) +
         xlab("Groups") + ylab("Percentage (%)") +
