@@ -14,13 +14,11 @@
 #' @author Contact: Yong-Xin Liu \email{metagenome@@126.com}
 #' @references
 #'
-#' Yong-Xin Liu, Yuan Qin, Tong Chen, Meiping Lu, Xubo Qian, Xiaoxuan Guo & Yang Bai.
-#' A practical guide to amplicon and metagenomic analysis of microbiome data.
-#' Protein Cell, 2020(41), 1-16, DOI: \url{https://doi.org/10.1007/s13238-020-00724-8}
-#'
-#' Jingying Zhang, Yong-Xin Liu, Na Zhang, Bin Hu, Tao Jin, Haoran Xu, Yuan Qin, Pengxu Yan, Xiaoning Zhang, Xiaoxuan Guo, Jing Hui, Shouyun Cao, Xin Wang, Chao Wang, Hui Wang, Baoyuan Qu, Guangyi Fan, Lixing Yuan, Ruben Garrido-Oter, Chengcai Chu & Yang Bai.
-#' NRT1.1B is associated with root microbiota composition and nitrogen use in field-grown rice.
-#' Nature Biotechnology, 2019(37), 6:676-684, DOI: \url{https://doi.org/10.1038/s41587-019-0104-4}
+#' Yong-Xin Liu, Lei Chen, Tengfei Ma, Xiaofang Li, Maosheng Zheng, Xin Zhou, Liang Chen,
+#' Xubo Qian, Jiao Xi, Hongye Lu, Huiluo Cao, Xiaoya Ma, Bian Bian, Pengfan Zhang,
+#' Jiqiu Wu, Ren-You Gan, Baolei Jia, Linyang Sun, Zhicheng Ju, Yunyun Gao, Tao Wen,
+#' Tong Chen. 2023. EasyAmplicon: An easy-to-use, open-source, reproducible, and community-based pipeline for amplicon data analysis in microbiome research.
+#' iMeta 2: e83. \url{https://doi.org/10.1002/imt2.83}
 #'
 #' @seealso beta_pcoa
 #' @examples
@@ -63,7 +61,7 @@ beta_pcoa_stat <- function(dis_mat, metadata, groupID = "Group", result = "beta_
     if (length(unique(design2$group))>1) {
       sub_dis_table = dis_table[rownames(design2),rownames(design2)]
       sub_dis_table = as.dist(sub_dis_table, diag = FALSE, upper = FALSE)
-      adonis_table = adonis(sub_dis_table~group, data=design2, permutations = 10000)
+      adonis_table = adonis2(sub_dis_table~group, data=design2, permutations = 10000)
       adonis_pvalue = adonis_table$aov.tab$`Pr(>F)`[1]
       # print(paste("In ",opts$type," pvalue between", sampleA, "and", sampleB, "is", adonis_pvalue, sep=" "))
       adonis_pvalue = paste(sampleA, sampleB, adonis_pvalue, sep="\t")
