@@ -4,7 +4,7 @@ Statistics and visualization for amplicon data in microbiome
 
 ## Examples of visualizations. 
 
-![image](http://bailab.genetics.ac.cn/Note/R/amplicon/Figure2.jpg)
+![image](http://www.imeta.science/github/EasyAmplicon/result/Figure2.jpg)
 
 
 ## Main features:

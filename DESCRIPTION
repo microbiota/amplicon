@@ -1,8 +1,8 @@
 Package: amplicon
 Type: Package
 Title: Statistics and visualization for microbiome data
-Version: 1.18.2
-Date: 2023-1-28
+Version: 1.19.0
+Date: 2023-4-25
 Author: Yong-Xin Liu, Tao Wen, Tong Chen
 Maintainer: Yong-Xin Liu <liuyongxin@caas.cn>, Tao Wen <taowen@njau.edu.cn>, Tong Chen <chent@nrc.ac.cn>
 Description: A basic statistics and plotting pipeline for amplicon data.
@@ -25,6 +25,7 @@ Description: A basic statistics and plotting pipeline for amplicon data.
     1.14.2 2022-11-06 文涛更新alpha_boxplot.R，default keep outlier
     1.18.0 2023-1-27 update all R package
     1.18.1 2023-1-28 adonis to adonis2 in beta_pcoa_stat.R
+    1.19.0 2023-4-25 adonis2 data strcutre change: adonis_table$aov.tab$`Pr(>F)`[1] to adonis_table$`Pr(>F)`[1] in beta_pcoa_stat.R
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
