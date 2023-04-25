@@ -31,12 +31,13 @@
 beta_pcoa_stat <- function(dis_mat, metadata, groupID = "Group", result = "beta_pcoa_stat.txt", pairwise = T, pairwise_list = "vignettes/compare.txt") {
 
   # # 测试默认参数
+  # library(amplicon)
   # dis_mat = beta_unifrac
   # metadata = metadata
   # groupID = "Group"
   # result = "beta_pcoa_stat.txt"
   # pairwise = T
-  # pairwise_list = "doc/compare.txt"
+  # pairwise_list = "compare.txt"
 
   # 依赖关系检测与安装
   p_list = c("vegan")
@@ -55,6 +56,7 @@ beta_pcoa_stat <- function(dis_mat, metadata, groupID = "Group", result = "beta_
 
   # Compare each group beta by vegan adonis in bray_curtis
   da_adonis = function(sampleV){
+    # sampleV = tmp_compare
     sampleA = as.matrix(sampleV$sampA)
     sampleB = as.matrix(sampleV$sampB)
     design2 = subset(metadata, group %in% c(sampleA,sampleB))
@@ -62,7 +64,7 @@ beta_pcoa_stat <- function(dis_mat, metadata, groupID = "Group", result = "beta_
       sub_dis_table = dis_table[rownames(design2),rownames(design2)]
       sub_dis_table = as.dist(sub_dis_table, diag = FALSE, upper = FALSE)
       adonis_table = adonis2(sub_dis_table~group, data=design2, permutations = 10000)
-      adonis_pvalue = adonis_table$aov.tab$`Pr(>F)`[1]
+      adonis_pvalue = adonis_table$`Pr(>F)`[1]
       # print(paste("In ",opts$type," pvalue between", sampleA, "and", sampleB, "is", adonis_pvalue, sep=" "))
       adonis_pvalue = paste(sampleA, sampleB, adonis_pvalue, sep="\t")
       write.table(adonis_pvalue, file=result, append = TRUE, sep="\t", quote=F, row.names=F, col.names=F)
@@ -76,6 +78,8 @@ beta_pcoa_stat <- function(dis_mat, metadata, groupID = "Group", result = "beta_
     len_compare_data = length(compare_data)
     for(i in 1:(len_compare_data-1)) {
       for(j in (i+1):len_compare_data) {
+        # i=1
+        # j=2
         tmp_compare = as.data.frame(cbind(sampA=compare_data[i],sampB=compare_data[j]))
         print(tmp_compare)
         da_adonis(tmp_compare)
